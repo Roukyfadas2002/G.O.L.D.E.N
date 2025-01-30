@@ -9,7 +9,7 @@ import com.src.backend.configuration.flyway.FlywayMigrationRunner;
 public class BackendApplication {
 
     public static void main(String[] args) {
-        // Charger le contexte Spring
+        // Charger le contexte Springt
         ApplicationContext context = SpringApplication.run(BackendApplication.class, args);
 
         // Exécuter les migrations Flyway
