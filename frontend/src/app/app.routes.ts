@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
-
-import { HomeComponent } from './pages/home/home.component';
-import { AboutComponent } from './pages/about/about.component';
-import { ReservationComponent } from './pages/reservation/reservation.component';
-import { AdoptionComponent } from './pages/adoption/adoption.component';
-import { CommandeComponent } from './pages/commande/commande.component';
+import { HomeComponent } from './components/home/home.component';
+import { AboutComponent } from './components/about/about.component';
+import { ReservationComponent } from './components/reservation/reservation.component';
+import { AdoptionComponent } from './components/adoption/adoption.component';
+import { CommandeComponent } from './components/commande/commande.component';
+import { ClientsComponent } from './components/clients/clients.component'; // ✅ Page Admin
+import { AuthGuard } from './guards/auth.guard'; // ✅ Protection des routes
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -12,5 +13,9 @@ export const routes: Routes = [
   { path: 'reservation', component: ReservationComponent },
   { path: 'adoption', component: AdoptionComponent },
   { path: 'commande', component: CommandeComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' } // Redirige vers Accueil en cas d'erreur
+
+  // ✅ Route protégée : uniquement accessible aux Admins
+  { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
+
+  { path: '**', redirectTo: '' } // Redirection si la route n'existe pas
 ];

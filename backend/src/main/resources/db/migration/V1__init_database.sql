@@ -93,3 +93,44 @@ CREATE TABLE commande_produit (
     FOREIGN KEY (id_commande) REFERENCES commande (id_commande) ON DELETE CASCADE,
     FOREIGN KEY (id_produit) REFERENCES produit (id_produit) ON DELETE CASCADE
 );
+
+-- Insertion des rôles
+INSERT INTO role (nom_role, description) 
+VALUES 
+('Admin', 'Administrateur avec tous les droits'),
+('User', 'Utilisateur standard avec des droits limités');
+
+-- Insertion d'un compte admin
+INSERT INTO client (nom, prenom, email, password, telephone, adresse, id_role)
+VALUES 
+('Admin', 'System', 'admin@example.com', 'admin', '0600000000', 'Siège Administratif', 1); -- Mot de passe à remplacer par un hash
+
+-- Insertion de clients normaux
+INSERT INTO client (nom, prenom, email, password, telephone, adresse, id_role)
+VALUES 
+('Dupont', 'Jean', 'jean.dupont@example.com', 'jean', '0601020304', '123 Rue de Paris', 2),
+('Martin', 'Claire', 'claire.martin@example.com', 'claire', '0605060708', '45 Avenue de Lyon', 2);
+
+-- Insertion des chiens
+INSERT INTO chien (nom, race, age, id_pere, id_mere)
+VALUES 
+('Rex', 'Golden Retriever', 3, NULL, NULL),
+('Bella', 'Golden Retriever', 2, 1, NULL);
+
+-- Association chien-propriétaire
+INSERT INTO chien_proprietaire (id_chien, id_client)
+VALUES 
+(1, 1),
+(1, 2);
+
+-- Insertion des chambres
+INSERT INTO chambre (nom, type, prix_par_nuit)
+VALUES 
+('Chambre 101', 'Double', 100.00),
+('Chambre 202', 'Suite', 150.00);
+
+-- Insertion des réservations
+INSERT INTO reservation (id_client, id_chambre, date_debut, date_fin, status)
+VALUES 
+(1, 1, '2025-02-01', '2025-02-05', 'Confirmée'),
+(2, 2, '2025-03-10', '2025-03-15', 'Confirmée');

@@ -4,13 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  private TOKEN_EXPIRATION_MINUTES = 1; // ✅ Facilement modifiable (10 minutes par défaut)
+  private TOKEN_EXPIRATION_MINUTES = 10; // ✅ Durée du token (modifiable)
   private WARNING_TIME_BEFORE_EXPIRATION = 30 * 1000; // ✅ Avertissement 30s avant expiration
-
-  private users = {
-    admin: { username: 'admin', password: 'admin123', role: 'Admin' },
-    user: { username: 'user', password: 'user123', role: 'User' }
-  };
 
   private warningTimeout: any;
   private logoutTimeout: any;
@@ -20,16 +15,21 @@ export class AuthService {
   }
 
   /**
-   * Connexion de l'utilisateur
+   * Connexion de l'utilisateur (Stockage du token en local)
    */
   login(username: string, password: string): boolean {
-    const user = this.users[username as keyof typeof this.users];
+    const users = {
+      admin: { username: 'admin', password: 'admin123', role: 'Admin' },
+      user: { username: 'user', password: 'user123', role: 'User' }
+    };
+
+    const user = users[username as keyof typeof users];
 
     if (user && user.password === password) {
       const token = this.generateToken(user.role);
       localStorage.setItem('token', token);
       localStorage.setItem('role', user.role);
-      localStorage.setItem('username', user.username); // ✅ Stocke le nom d'utilisateur
+      localStorage.setItem('username', user.username);
 
       this.scheduleAutoLogout(); // ✅ Planifie la déconnexion automatique
       return true;
@@ -43,10 +43,10 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
-    localStorage.removeItem('username'); // ✅ Supprime aussi le nom d'utilisateur
+    localStorage.removeItem('username');
     clearTimeout(this.warningTimeout);
     clearTimeout(this.logoutTimeout);
-    window.location.reload(); // ✅ Rafraîchir pour réinitialiser l'état
+    window.location.reload();
   }
 
   /**
@@ -64,13 +64,15 @@ export class AuthService {
   }
 
   /**
-   * Vérifie si l'utilisateur est authentifié
+   * Vérifie si l'utilisateur est authentifié (Vérifie aussi l'expiration du token)
    */
   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     if (!token) return false;
 
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = this.getTokenPayload(token);
+    if (!payload) return false; // ✅ Évite une erreur si le token est mal formé
+
     if (payload.exp < Date.now() / 1000) {
       this.logout(); // ✅ Expiration détectée → Déconnexion immédiate
       return false;
@@ -88,8 +90,18 @@ export class AuthService {
       exp: Math.floor(Date.now() / 1000) + (this.TOKEN_EXPIRATION_MINUTES * 60) // ✅ Converti en secondes
     };
 
-    const base64Encode = (obj: any) => btoa(JSON.stringify(obj)).replace(/=+$/, '');
-    return `${base64Encode(header)}.${base64Encode(payload)}.signature`;
+    return `${btoa(JSON.stringify(header))}.${btoa(JSON.stringify(payload))}.signature`;
+  }
+
+  /**
+   * Extrait le payload du token JWT
+   */
+  private getTokenPayload(token: string): any {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      return null; // ✅ Évite une erreur si le token est mal formé
+    }
   }
 
   /**
@@ -99,11 +111,12 @@ export class AuthService {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const expiresIn = (payload.exp * 1000) - Date.now();
+    const payload = this.getTokenPayload(token);
+    if (!payload) return; // ✅ Évite une erreur si le token est mal formé
 
+    const expiresIn = (payload.exp * 1000) - Date.now();
     if (expiresIn <= 0) {
-      this.logout(); // ✅ Déconnexion immédiate si le token est déjà expiré
+      this.logout(); // ✅ Déconnexion immédiate si le token est expiré
     } else {
       this.scheduleAutoLogout();
     }
@@ -116,7 +129,9 @@ export class AuthService {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = this.getTokenPayload(token);
+    if (!payload) return; // ✅ Évite une erreur si le token est mal formé
+
     const expiresIn = (payload.exp * 1000) - Date.now();
 
     if (expiresIn > this.WARNING_TIME_BEFORE_EXPIRATION) {
@@ -145,7 +160,7 @@ export class AuthService {
     const role = this.getRole();
     const username = this.getUsername();
     if (role === 'Guest') return; // ✅ Si l'utilisateur est déconnecté, ne rien faire
-  
+
     // ✅ Générer un nouveau token avec une nouvelle expiration
     const newToken = this.generateToken(role);
     localStorage.setItem('token', newToken);
@@ -153,11 +168,11 @@ export class AuthService {
     // ✅ Conserver le rôle et le nom d'utilisateur
     localStorage.setItem('role', role);
     localStorage.setItem('username', username);
-  
+
     // ✅ Cacher la pop-up d'avertissement
     const logoutWarning = document.getElementById('logoutWarning');
     if (logoutWarning) logoutWarning.style.display = 'none';
-  
+
     // ✅ Annuler les anciens timers et reprogrammer la déconnexion automatique
     clearTimeout(this.warningTimeout);
     clearTimeout(this.logoutTimeout);

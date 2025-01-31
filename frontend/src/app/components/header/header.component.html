@@ -32,6 +32,14 @@
         </a>
       </li>
 
+      <!-- ✅ Lien visible uniquement pour les Admins -->
+      <li *ngIf="userRole === 'Admin'" [class.active]="activePage === 'admin/clients'" (click)="setActivePage('admin/clients')">
+        <a routerLink="/admin/clients">
+          <i class="fas fa-user-shield"></i>
+          <span>Gestion des Clients</span>
+        </a>
+      </li>
+
       <!-- Bouton Connexion / Déconnexion -->
       <li>
         <button *ngIf="!isAuthenticated" (click)="openLoginDialog()">Login</button>

@@ -1,0 +1,39 @@
+<h2 class="title">Liste des clients</h2>
+
+<div class="table-container">
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Adresse</th>
+        <th>Rôle</th>
+        <th>Créé le</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients">
+        <td>{{ client.idClient }}</td>
+        <td>{{ client.nom }}</td>
+        <td>{{ client.prenom }}</td>
+        <td>{{ client.email }}</td>
+        <td>{{ client.telephone }}</td>
+        <td>{{ client.adresse }}</td>
+        <td>
+          <span class="role" [ngClass]="{'admin': client.roleName === 'Admin', 'client': client.roleName === 'User'}">
+            <i class="fas" [ngClass]="{'fa-user-shield': client.roleName === 'Admin', 'fa-user': client.roleName === 'User'}"></i>
+            {{ client.roleName }}
+          </span>
+        </td>        
+        <td>{{ client.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          <button class="details-btn">Détails</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

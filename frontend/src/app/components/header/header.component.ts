@@ -18,6 +18,7 @@ export class HeaderComponent {
 
   constructor(private router: Router, private authService: AuthService) {
     this.updateAuthState();
+    this.listenForAuthChanges();
   }
 
   /**
@@ -26,6 +27,15 @@ export class HeaderComponent {
   private updateAuthState(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.userRole = this.authService.getRole() || 'Guest';
+  }
+
+  /**
+   * Écoute les changements d'authentification pour mise à jour automatique
+   */
+  private listenForAuthChanges(): void {
+    window.addEventListener('storage', () => {
+      this.updateAuthState();
+    });
   }
 
   /**
@@ -38,10 +48,13 @@ export class HeaderComponent {
   /**
    * Connexion (via LoginDialog)
    */
-  login(): void {
-    this.authService.login('user', 'user123'); // Simule une connexion utilisateur
-    this.updateAuthState();
-    this.router.navigate(['/']); // ✅ Redirection vers l'accueil après connexion
+  login(username: string, password: string): void {
+    if (this.authService.login(username, password)) {
+      this.updateAuthState();
+      this.router.navigate(['/']); // ✅ Redirection vers l'accueil après connexion
+    } else {
+      alert("Échec de connexion : identifiants incorrects.");
+    }
   }
 
   /**
@@ -57,7 +70,10 @@ export class HeaderComponent {
    * Vérifie si l'utilisateur a accès à une page donnée
    */
   isPageAccessible(page: string): boolean {
-    return this.isAuthenticated || page === 'home' || page === 'about';
+    if (this.userRole === 'Guest') {
+      return page === 'home' || page === 'about';
+    }
+    return true;
   }
 
   /**
