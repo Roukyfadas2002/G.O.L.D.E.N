@@ -1,0 +1,31 @@
+/* Assurez-vous que le body a une hauteur et un espace sous le header */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #FAF3E0; /* Couleur douce inspirée des Golden Retrievers */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  app-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  router-outlet {
+    display: block;
+    margin-top: 80px; /* Ajoute un espace pour éviter que le header cache le contenu */
+  }
+  
+  app-footer {
+    margin-top: auto;
+  }
+
+  html, body {
+    height: 100%;
+  }
+  

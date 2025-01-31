@@ -1,0 +1,50 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #F5DEB3;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+  text-align: center;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+}
+
+/* Conteneur central */
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #8B4513;
+  font-size: 14px;
+}
+
+/* Statut de l'utilisateur */
+.user-status {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.user-status strong {
+  color: #DAA520;
+}
+
+/* Liens sociaux */
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.social-links a {
+  color: #8B4513;
+  text-decoration: none;
+  font-size: 18px;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.social-links a:hover {
+  transform: scale(1.2);
+  color: #DAA520;
+}

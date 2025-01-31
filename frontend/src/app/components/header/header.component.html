@@ -1,0 +1,50 @@
+<header>
+  <nav>
+    <ul>
+      <li [class.active]="activePage === 'home'" (click)="setActivePage('home')">
+        <a routerLink="/">
+          <i class="fas fa-home"></i>
+          <span>Accueil</span>
+        </a>
+      </li>
+      <li [class.active]="activePage === 'about'" (click)="setActivePage('about')">
+        <a routerLink="/about">
+          <i class="fas fa-info-circle"></i>
+          <span>À propos</span>
+        </a>
+      </li>
+      <li *ngIf="isAuthenticated" [class.active]="activePage === 'reservation'" (click)="setActivePage('reservation')">
+        <a routerLink="/reservation">
+          <i class="fas fa-bed"></i>
+          <span>Réservation</span>
+        </a>
+      </li>
+      <li *ngIf="isAuthenticated" [class.active]="activePage === 'adoption'" (click)="setActivePage('adoption')">
+        <a routerLink="/adoption">
+          <i class="fas fa-paw"></i>
+          <span>Adoption</span>
+        </a>
+      </li>
+      <li *ngIf="isAuthenticated" [class.active]="activePage === 'commande'" (click)="setActivePage('commande')">
+        <a routerLink="/commande">
+          <i class="fas fa-shopping-cart"></i>
+          <span>Produits</span>
+        </a>
+      </li>
+
+      <!-- Bouton Connexion / Déconnexion -->
+      <li>
+        <button *ngIf="!isAuthenticated" (click)="openLoginDialog()">Login</button>
+        <button *ngIf="isAuthenticated" (click)="logout()">Logout</button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Boîte de dialogue Login -->
+<div id="loginDialog" class="login-modal">
+  <div class="login-content">
+    <span class="close" (click)="closeLoginDialog()">&times;</span>
+    <app-login-dialog></app-login-dialog>
+  </div>
+</div>

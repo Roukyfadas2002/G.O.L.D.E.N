@@ -1,0 +1,18 @@
+<footer>
+  <div class="footer-container">
+    <p>&copy; 2025 - Élevage & Chambres d'hôtes</p>
+
+    <p class="user-status">
+      <span *ngIf="isAuthenticated">
+        Connecté en tant que <strong>{{ userRole }}</strong> ({{ username }})
+      </span>
+      <span *ngIf="!isAuthenticated">Vous êtes déconnecté</span>
+    </p>
+
+    <div class="social-links">
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</footer>
