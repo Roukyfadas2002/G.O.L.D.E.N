@@ -6,6 +6,7 @@ public class LoginResponse {
     private String role;
     private String username;
 
+    // ✅ Constructeur avec paramètres
     public LoginResponse(boolean success, String message, String role, String username) {
         this.success = success;
         this.message = message;
@@ -13,6 +14,7 @@ public class LoginResponse {
         this.username = username;
     }
 
+    // ✅ Getters
     public boolean isSuccess() { return success; }
     public String getMessage() { return message; }
     public String getRole() { return role; }

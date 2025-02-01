@@ -1,46 +1,76 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+
+/**
+ * Interface pour typer la réponse du backend
+ */
+interface LoginResponse {
+  success: boolean;
+  message: string;
+  role: string;
+  username: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private TOKEN_EXPIRATION_MINUTES = 10; // ✅ Durée du token (modifiable)
-  private WARNING_TIME_BEFORE_EXPIRATION = 30 * 1000; // ✅ Avertissement 30s avant expiration
+  private apiUrl = 'http://localhost:8080/api/auth/login'; // ✅ URL du backend
+  private TOKEN_EXPIRATION_MINUTES = 10;
+  private WARNING_TIME_BEFORE_EXPIRATION = 30 * 1000;
 
   private warningTimeout: any;
   private logoutTimeout: any;
 
-  constructor() {
-    this.checkTokenExpiration(); // ✅ Vérifie si le token a expiré dès le chargement
+  constructor(private http: HttpClient) {
+    this.checkTokenExpiration();
   }
 
   /**
-   * Connexion de l'utilisateur (Stockage du token en local)
+   * 🔐 Envoie une requête de connexion au backend
    */
-  login(username: string, password: string): boolean {
-    const users = {
-      admin: { username: 'admin', password: 'admin123', role: 'Admin' },
-      user: { username: 'user', password: 'user123', role: 'User' }
-    };
+  login(email: string, password: string): Observable<LoginResponse> {
+    console.log("📡 Envoi des identifiants au backend...");
 
-    const user = users[username as keyof typeof users];
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const loginData = { email, password };
 
-    if (user && user.password === password) {
-      const token = this.generateToken(user.role);
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', user.role);
-      localStorage.setItem('username', user.username);
+    return this.http.post<LoginResponse>(this.apiUrl, loginData, { headers }).pipe(
+      tap(response => {
+        console.log("✅ Réponse du serveur :", response);
 
-      this.scheduleAutoLogout(); // ✅ Planifie la déconnexion automatique
-      return true;
-    }
-    return false;
+        if (response.success) {
+          console.log("🔑 Connexion réussie !");
+          this.storeUserData(response);
+          this.scheduleAutoLogout();
+        } else {
+          console.error("❌ Connexion échouée :", response.message);
+        }
+      }),
+      catchError(error => {
+        console.error("❌ Erreur HTTP :", error);
+        return throwError(() => new Error(error));
+      })
+    );
   }
 
   /**
-   * Déconnexion de l'utilisateur
+   * Stocke les informations utilisateur dans le localStorage
+   */
+  private storeUserData(response: LoginResponse): void {
+    const token = this.generateToken(response.role);
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', response.role);
+    localStorage.setItem('username', response.username);
+  }
+
+  /**
+   * 🔒 Déconnexion de l'utilisateur
    */
   logout(): void {
+    console.log("🔒 Déconnexion...");
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('username');
@@ -50,87 +80,73 @@ export class AuthService {
   }
 
   /**
-   * Retourne le rôle de l'utilisateur
-   */
-  getRole(): string {
-    return localStorage.getItem('role') || 'Guest';
-  }
-
-  /**
-   * Retourne le nom de l'utilisateur connecté
-   */
-  getUsername(): string {
-    return localStorage.getItem('username') || 'Invité';
-  }
-
-  /**
-   * Vérifie si l'utilisateur est authentifié (Vérifie aussi l'expiration du token)
+   * 🔍 Vérifie si l'utilisateur est authentifié
    */
   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     if (!token) return false;
 
     const payload = this.getTokenPayload(token);
-    if (!payload) return false; // ✅ Évite une erreur si le token est mal formé
+    if (!payload) return false;
 
     if (payload.exp < Date.now() / 1000) {
-      this.logout(); // ✅ Expiration détectée → Déconnexion immédiate
+      this.logout();
       return false;
     }
     return true;
   }
 
   /**
-   * Génère un token JWT simulé avec une durée d'expiration
+   * 🔑 Génère un token JWT simulé avec une durée d'expiration
    */
   private generateToken(role: string): string {
     const header = { alg: 'HS256', typ: 'JWT' };
     const payload = {
       role: role,
-      exp: Math.floor(Date.now() / 1000) + (this.TOKEN_EXPIRATION_MINUTES * 60) // ✅ Converti en secondes
+      exp: Math.floor(Date.now() / 1000) + (this.TOKEN_EXPIRATION_MINUTES * 60)
     };
 
     return `${btoa(JSON.stringify(header))}.${btoa(JSON.stringify(payload))}.signature`;
   }
 
   /**
-   * Extrait le payload du token JWT
+   * 📦 Extrait le payload du token JWT
    */
   private getTokenPayload(token: string): any {
     try {
       return JSON.parse(atob(token.split('.')[1]));
     } catch (e) {
-      return null; // ✅ Évite une erreur si le token est mal formé
+      return null;
     }
   }
 
   /**
-   * Vérifie si le token est encore valide au démarrage
+   * ✅ Vérifie si le token est encore valide au démarrage
    */
   private checkTokenExpiration(): void {
     const token = localStorage.getItem('token');
     if (!token) return;
 
     const payload = this.getTokenPayload(token);
-    if (!payload) return; // ✅ Évite une erreur si le token est mal formé
+    if (!payload) return;
 
     const expiresIn = (payload.exp * 1000) - Date.now();
     if (expiresIn <= 0) {
-      this.logout(); // ✅ Déconnexion immédiate si le token est expiré
+      this.logout();
     } else {
       this.scheduleAutoLogout();
     }
   }
 
   /**
-   * Planifie la déconnexion automatique et l'avertissement
+   * ✅ Planifie la déconnexion automatique et l'avertissement
    */
   private scheduleAutoLogout(): void {
     const token = localStorage.getItem('token');
     if (!token) return;
 
     const payload = this.getTokenPayload(token);
-    if (!payload) return; // ✅ Évite une erreur si le token est mal formé
+    if (!payload) return;
 
     const expiresIn = (payload.exp * 1000) - Date.now();
 
@@ -141,41 +157,51 @@ export class AuthService {
     }
 
     this.logoutTimeout = setTimeout(() => {
-      this.logout(); // ✅ Déconnecte l'utilisateur après expiration
+      this.logout();
     }, expiresIn);
   }
 
   /**
-   * Affiche la pop-up d'avertissement avant la déconnexion
+   * ✅ Affiche une alerte avant la déconnexion
    */
   private showLogoutWarning(): void {
+    console.warn("⚠️ Votre session va expirer bientôt !");
     const logoutWarning = document.getElementById('logoutWarning');
     if (logoutWarning) logoutWarning.style.display = 'flex';
   }
 
   /**
-   * Prolonge la session de l'utilisateur
+   * ✅ Prolonge la session de l'utilisateur
    */
   extendSession(): void {
     const role = this.getRole();
     const username = this.getUsername();
-    if (role === 'Guest') return; // ✅ Si l'utilisateur est déconnecté, ne rien faire
+    if (role === 'Guest') return;
 
-    // ✅ Générer un nouveau token avec une nouvelle expiration
     const newToken = this.generateToken(role);
     localStorage.setItem('token', newToken);
-
-    // ✅ Conserver le rôle et le nom d'utilisateur
     localStorage.setItem('role', role);
     localStorage.setItem('username', username);
 
-    // ✅ Cacher la pop-up d'avertissement
     const logoutWarning = document.getElementById('logoutWarning');
     if (logoutWarning) logoutWarning.style.display = 'none';
 
-    // ✅ Annuler les anciens timers et reprogrammer la déconnexion automatique
     clearTimeout(this.warningTimeout);
     clearTimeout(this.logoutTimeout);
     this.scheduleAutoLogout();
+  }
+
+  /**
+   * ✅ Retourne le rôle de l'utilisateur
+   */
+  getRole(): string {
+    return localStorage.getItem('role') || 'Guest';
+  }
+
+  /**
+   * ✅ Retourne le nom de l'utilisateur connecté
+   */
+  getUsername(): string {
+    return localStorage.getItem('username') || 'Invité';
   }
 }

@@ -4,7 +4,16 @@ public class LoginRequest {
     private String email;
     private String password;
 
-    // Getters et Setters
+    // ✅ Constructeur par défaut requis par Spring
+    public LoginRequest() {}
+
+    // ✅ Constructeur avec paramètres (utile pour les tests)
+    public LoginRequest(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    // ✅ Getters et Setters
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
