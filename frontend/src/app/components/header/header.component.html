@@ -13,6 +13,8 @@
           <span>À propos</span>
         </a>
       </li>
+
+      <!-- ✅ Liens visibles uniquement si l'utilisateur est authentifié -->
       <li *ngIf="isAuthenticated" [class.active]="activePage === 'reservation'" (click)="setActivePage('reservation')">
         <a routerLink="/reservation">
           <i class="fas fa-bed"></i>
@@ -32,15 +34,21 @@
         </a>
       </li>
 
-      <!-- ✅ Lien visible uniquement pour les Admins -->
+      <!-- ✅ Liens Admin -->
       <li *ngIf="userRole === 'Admin'" [class.active]="activePage === 'admin/clients'" (click)="setActivePage('admin/clients')">
         <a routerLink="/admin/clients">
           <i class="fas fa-user-shield"></i>
           <span>Gestion des Clients</span>
         </a>
       </li>
+      <li *ngIf="userRole === 'Admin'" [class.active]="activePage === 'admin/chiens'" (click)="setActivePage('admin/chiens')">
+        <a routerLink="/admin/chiens">
+          <i class="fas fa-dog"></i>
+          <span>Gestion des Chiens</span>
+        </a>
+      </li>
 
-      <!-- Bouton Connexion / Déconnexion -->
+      <!-- ✅ Boutons Connexion / Déconnexion -->
       <li>
         <button *ngIf="!isAuthenticated" (click)="openLoginDialog()">Login</button>
         <button *ngIf="isAuthenticated" (click)="logout()">Logout</button>
@@ -49,7 +57,7 @@
   </nav>
 </header>
 
-<!-- Boîte de dialogue Login -->
+<!-- ✅ Boîte de dialogue Login -->
 <div id="loginDialog" class="login-modal">
   <div class="login-content">
     <span class="close" (click)="closeLoginDialog()">&times;</span>

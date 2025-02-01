@@ -15,14 +15,21 @@ export class ClientsComponent implements OnInit {
   constructor(private clientService: ClientService) {}
 
   ngOnInit(): void {
-    this.clientService.getClients().subscribe(
-      (data) => {
-        this.clients = data.map(client => ({
-          ...client,
-          roleName: client.roleName,       // ✅ On prend directement le nom du rôle depuis l'API
-        }));
-      },
-      (error) => console.error('Erreur lors de la récupération des clients', error)
-    );
+    this.loadClients();
+  }
+
+  // ✅ Charger la liste des clients
+  loadClients(): void {
+    this.clientService.getClients().subscribe(data => {
+      this.clients = data.map(client => ({
+        ...client,
+        roleName: client.roleName || 'Inconnu'
+      }));
+    });
+  }
+
+  // ✅ Afficher les détails d'un client
+  viewDetails(client: Client): void {
+    alert(`👤 Détails du client :\n\n📛 Nom: ${client.nom} ${client.prenom}\n✉️ Email: ${client.email}\n📞 Téléphone: ${client.telephone}\n🏠 Adresse: ${client.adresse}\n🔰 Rôle: ${client.roleName}`);
   }
 }

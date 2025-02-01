@@ -1,0 +1,33 @@
+<div class="table-container">
+    <h2 class="title">🐶 Liste des Chiens</h2>
+  
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Race</th>
+          <th>Âge</th>
+          <th>Père</th>
+          <th>Mère</th>
+          <th>Créé le</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chien of chiens">
+          <td>{{ chien.idChien }}</td>
+          <td>{{ chien.nom }}</td>
+          <td>{{ chien.race }}</td>
+          <td>{{ chien.age }}</td>
+          <td class="parent">{{ chien.nomPere || '' }}</td>
+          <td class="parent">{{ chien.nomMere || '' }}</td>
+          <td>{{ chien.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <button class="details-btn" (click)="viewDetails(chien)">Détails</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
