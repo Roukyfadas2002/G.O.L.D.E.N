@@ -1,0 +1,78 @@
+/* ✅ Enlève la séparation entre le titre et le formulaire */
+::ng-deep .mat-dialog-container {
+    padding: 0 !important;
+    background: #f7e6c4 !important; /* 🌟 Uniformisation du fond */
+    border-radius: 12px !important; /* Arrondi doux */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre légère */
+  }
+  
+  /* ✅ Titre bien intégré */
+  .dialog-title {
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    width: 100%;
+    background: #f7e6c4 !important; /* Uniforme */
+    margin: 0; /* Supprime la marge */
+    border-bottom: none !important; /* Supprime toute séparation */
+  }
+  
+  /* ✅ Contenu bien intégré sans séparation */
+  .dialog-wrapper {
+    padding: 25px;
+    background: #f7e6c4 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0; /* Supprime toute séparation */
+  }
+  
+  /* ✅ Suppression de la ligne grise */
+  .dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px;
+    background: #f7e6c4 !important; /* Uniformisation */
+    border-top: none !important; /* ❌ Supprime la ligne */
+    margin-top: 0 !important;
+  }
+  
+  /* ✅ Conteneur global bien centré */
+  .dialog-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+    background: #f7e6c4 !important; /* 🌟 Même couleur partout */
+  }
+  
+  /* ✅ Organisation du formulaire en grille */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes */
+    gap: 15px;
+    width: 100%;
+  }
+  
+  /* ✅ Champ pleine largeur pour la date */
+  .full-width {
+    grid-column: span 2; /* La date prend toute la ligne */
+  }
+  
+  /* ✅ Centre bien les champs */
+  .form-field {
+    width: 100%;
+  }
+  
+  /* ✅ Ajuste les boutons */
+  .cancel-btn {
+    background: #dc3545 !important; /* Rouge */
+    color: white !important;
+  }
+  
+  .submit-btn {
+    background: #c69c6d !important; /* Marron doré */
+    color: white !important;
+  }
+  

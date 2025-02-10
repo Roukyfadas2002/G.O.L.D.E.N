@@ -3,15 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Chien {
-  idChien: number;
+  id?: number; // ✅ `id` peut être `undefined` lors de la création
   nom: string;
   race: string;
-  age: number;
+  dateNaissance: string;
   idPere?: number | null;
   idMere?: number | null;
-  createdAt: string;
-  nomPere?: string | null; // ✅ Ajout pour afficher le nom du père
-  nomMere?: string | null; // ✅ Ajout pour afficher le nom de la mère
+  createdAt?: string;
+  nomPere?: string | null;
+  nomMere?: string | null;
 }
 
 @Injectable({
@@ -27,12 +27,29 @@ export class ChienService {
     return this.http.get<Chien[]>(this.apiUrl);
   }
 
-  // ✅ Ajouter un chien (pour plus tard)
+  // ✅ Récupérer un chien par ID
+  getChienById(id: number): Observable<Chien> {
+    return this.http.get<Chien>(`${this.apiUrl}/${id}`);
+  }
+
+  // ✅ Récupérer les chiens d'un propriétaire spécifique
+  getChiensByProprietaire(idClient: number): Observable<Chien[]> {
+    return this.http.get<Chien[]>(`${this.apiUrl}/proprietaire/${idClient}`);
+  }
+
+  // ✅ Ajouter un chien
   addChien(chien: Chien): Observable<Chien> {
+    console.log("📤 Envoi de la requête POST au backend :", chien); // 🔍 Debug
     return this.http.post<Chien>(this.apiUrl, chien);
   }
 
-  // ✅ Supprimer un chien (pour plus tard)
+  // ✅ Modifier un chien
+  updateChien(id: number, chien: Chien): Observable<Chien> {
+    console.log(`📤 Envoi de la requête PUT au backend pour l'ID ${id} :`, chien); // 🔍 Debug
+    return this.http.put<Chien>(`${this.apiUrl}/${id}`, chien);
+  }
+
+  // ✅ Supprimer un chien
   deleteChien(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

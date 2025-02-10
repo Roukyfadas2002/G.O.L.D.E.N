@@ -1,12 +1,22 @@
-<div class="table-container">
-    <h2 class="title">🐶 Liste des Chiens</h2>
-  
-    <table class="styled-table">
+<div class="full-page">
+  <h2 class="title">🐶 Gestion des Chiens</h2>
+
+  <!-- ✅ Bouton pour ajouter un chien -->
+  <div class="button-container">
+    <button class="btn-add" (click)="openDialog()">
+      <i class="fa-solid fa-plus"></i> Ajouter un Chien
+    </button>
+  </div>
+
+  <!-- ✅ Tableau responsive -->
+  <div class="table-responsive">
+    <table class="custom-table">
       <thead>
         <tr>
           <th>ID</th>
           <th>Nom</th>
           <th>Race</th>
+          <th>Date de Naissance</th>
           <th>Âge</th>
           <th>Père</th>
           <th>Mère</th>
@@ -16,18 +26,30 @@
       </thead>
       <tbody>
         <tr *ngFor="let chien of chiens">
-          <td>{{ chien.idChien }}</td>
+          <td>{{ chien.id }}</td>
           <td>{{ chien.nom }}</td>
           <td>{{ chien.race }}</td>
-          <td>{{ chien.age }}</td>
-          <td class="parent">{{ chien.nomPere || '' }}</td>
-          <td class="parent">{{ chien.nomMere || '' }}</td>
+          <td>{{ chien.dateNaissance | date:'dd/MM/yyyy' }}</td>
+          <td>{{ getAge(chien.dateNaissance) }} ans</td>
+          <td class="parent">{{ chien.nomPere || 'N/A' }}</td>
+          <td class="parent">{{ chien.nomMere || 'N/A' }}</td>
           <td>{{ chien.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
-          <td>
-            <button class="details-btn" (click)="viewDetails(chien)">Détails</button>
-          </td>
+          <td class="action-buttons">
+            <!-- ✅ Bouton Détails -->
+            <i class="fa-solid fa-eye action-icon details-icon" (click)="viewDetails(chien)"></i>
+
+            <!-- ✅ Bouton Modifier -->
+            <i class="fa-solid fa-pen action-icon edit-icon" (click)="openDialog(chien)"></i>
+
+            <!-- ✅ Bouton Supprimer -->
+            <i 
+            class="fa-solid fa-trash action-icon delete-icon" 
+            *ngIf="chien.id !== undefined" 
+            (click)="deleteChien(chien.id!)">
+          </i> 
+        </td>
         </tr>
       </tbody>
     </table>
   </div>
-  
+</div>

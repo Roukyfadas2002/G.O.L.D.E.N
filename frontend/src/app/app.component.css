@@ -1,0 +1,6 @@
+/* ✅ Ajoute un espace sous le header */
+.app-container {
+    margin-top: 80px; /* Ajuste cette valeur selon la hauteur de ton header */
+    padding: 20px; /* Ajoute un léger padding pour aérer le contenu */
+  }
+  
