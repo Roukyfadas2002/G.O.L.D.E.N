@@ -1,0 +1,87 @@
+/* === Correction du label coupé === */
+::ng-deep mat-form-field {
+    width: 100%;
+    position: relative;
+    padding-top: 10px; /* ✅ Ajoute plus d’espace au-dessus des champs */
+  }
+  
+  /* ✅ Forcer le style du label */
+  ::ng-deep .mat-form-field-label {
+    background: #f7e6c4; /* ✅ Fond beige doux pour éviter la coupure */
+    padding: 0 5px; /* ✅ Ajoute un peu d’espace autour du texte */
+    z-index: 1; /* ✅ Passe au-dessus du champ */
+    position: relative; /* ✅ Garde le bon positionnement */
+    line-height: 1.2; /* ✅ Évite que le texte soit écrasé */
+    transform: translateY(3px); /* ✅ Ajuste la position verticale */
+  }
+  
+  /* ✅ Empêcher le label de se masquer dans le champ */
+  ::ng-deep .mat-form-field-infix {
+    padding: 15px 0px; /* ✅ Augmente l’espace à l’intérieur du champ */
+  }
+  
+  /* === Styles généraux === */
+  .dialog-container {
+    background: #f7e6c4; /* ✅ Beige doux pour uniformiser le fond */
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  /* === Contenu du formulaire === */
+  .dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* ✅ Augmente l’espace entre les champs */
+    background: #f7e6c4; /* ✅ Même couleur pour éviter toute coupure */
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  /* === Boutons === */
+  .dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: #f7e6c4;
+    border-radius: 0 0 10px 10px;
+  }
+  
+  .btn-cancel {
+    background: #b22222;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  .btn-cancel:hover {
+    background: white;
+    color: #b22222;
+    border: 2px solid #b22222;
+  }
+  
+  .btn-confirm {
+    background: #8b5e3b;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  /* ✅ Bouton désactivé bien grisé */
+  .btn-confirm:disabled {
+    background: #d6d6d6 !important;
+    color: #a0a0a0 !important;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  
+  /* ✅ Bouton actif bien visible */
+  .btn-confirm:not(:disabled):hover {
+    background: white;
+    color: #8b5e3b;
+    border: 2px solid #8b5e3b;
+  }
+  

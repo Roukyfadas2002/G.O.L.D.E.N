@@ -15,3 +15,6 @@ html, body {
   justify-content: space-between; /* Assure un bon espacement */
   padding-bottom: 30px; /* Ajoute un espace entre le contenu et le footer */
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

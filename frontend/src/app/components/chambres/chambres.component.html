@@ -1,0 +1,43 @@
+<div class="full-page">
+    <h2 class="text-center mb-4">🐕 🏡 Gestion des Chambres</h2>
+  
+    <!-- Bouton Ajouter une Chambre (positionné à gauche) -->
+    <div class="button-container">
+      <button class="btn btn-add" (click)="openDialog()">
+        <i class="fa-solid fa-plus"></i> Nouvelle Chambre
+      </button>
+    </div>
+  
+    <div class="table-container">
+      <div class="table-responsive">
+        <table class="table custom-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Type</th>
+              <th>Prix par Nuit (€)</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let chambre of chambres">
+              <td>{{ chambre.idChambre }}</td>
+              <td>{{ chambre.nom }}</td>
+              <td>{{ chambre.type }}</td>
+              <td>{{ chambre.prixParNuit | currency:'EUR' }}</td>
+              <td class="text-center action-buttons">
+                <i class="fa-solid fa-pen-to-square action-icon edit-icon" 
+                   (click)="openDialog(chambre)" 
+                   title="Modifier"></i>
+                <i class="fa-solid fa-trash action-icon delete-icon" 
+                   (click)="deleteChambre(chambre.idChambre!)" 
+                   title="Supprimer"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

@@ -6,6 +6,7 @@ import { AdoptionComponent } from './components/adoption/adoption.component';
 import { CommandeComponent } from './components/commande/commande.component';
 import { ClientsComponent } from './components/clients/clients.component'; // ✅ Page Admin
 import { ChienListComponent } from './components/chien-list/chien-list.component'; // ✅ Page Admin (Gestion des Chiens)
+import { ChambresComponent } from './components/chambres/chambres.component'; // ✅ Ajout de la gestion des chambres
 import { AuthGuard } from './guards/auth.guard'; // ✅ Protection des routes
 
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
   // ✅ Routes Admin protégées
   { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
   { path: 'admin/chiens', component: ChienListComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
+  { path: 'admin/chambres', component: ChambresComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } }, // 🚀 Ajout de la gestion des chambres
 
   { path: '**', redirectTo: '' } // Redirection si la route n'existe pas
 ];
