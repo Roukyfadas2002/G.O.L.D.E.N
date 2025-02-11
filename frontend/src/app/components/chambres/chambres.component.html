@@ -1,43 +1,50 @@
 <div class="full-page">
-    <h2 class="text-center mb-4">🐕 🏡 Gestion des Chambres</h2>
-  
-    <!-- Bouton Ajouter une Chambre (positionné à gauche) -->
-    <div class="button-container">
-      <button class="btn btn-add" (click)="openDialog()">
-        <i class="fa-solid fa-plus"></i> Nouvelle Chambre
-      </button>
-    </div>
-  
-    <div class="table-container">
-      <div class="table-responsive">
-        <table class="table custom-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nom</th>
-              <th>Type</th>
-              <th>Prix par Nuit (€)</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let chambre of chambres">
-              <td>{{ chambre.idChambre }}</td>
-              <td>{{ chambre.nom }}</td>
-              <td>{{ chambre.type }}</td>
-              <td>{{ chambre.prixParNuit | currency:'EUR' }}</td>
-              <td class="text-center action-buttons">
-                <i class="fa-solid fa-pen-to-square action-icon edit-icon" 
-                   (click)="openDialog(chambre)" 
-                   title="Modifier"></i>
-                <i class="fa-solid fa-trash action-icon delete-icon" 
-                   (click)="deleteChambre(chambre.idChambre!)" 
-                   title="Supprimer"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <h2 class="title">🏨 Gestion des Chambres</h2>
+
+  <div class="button-container">
+    <button class="btn-add" (click)="openDialog()">
+      <i class="fa-solid fa-plus"></i> Ajouter une Chambre
+    </button>
   </div>
-  
+
+  <div class="table-responsive">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th (click)="sortBy('idChambre')">ID <i [class]="getSortIcon('idChambre')"></i></th>
+          <th (click)="sortBy('nom')">Nom <i [class]="getSortIcon('nom')"></i></th>
+          <th (click)="sortBy('type')">Type <i [class]="getSortIcon('type')"></i></th>
+          <th (click)="sortBy('prixParNuit')">Prix/Nuit <i [class]="getSortIcon('prixParNuit')"></i></th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+        <tr class="filter-row">
+          <td></td>
+          <td><input type="text" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="🔍 Nom"></td>
+          <td>
+            <select [(ngModel)]="filterType" (change)="applyFilters()">
+              <option value="">Tous</option>
+              <option *ngFor="let type of uniqueTypes" [value]="type">{{ type }}</option>
+            </select>
+          </td>
+          <td><input type="number" [(ngModel)]="filterPrice" (input)="applyFilters()" placeholder="Prix max (€)"></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chambre of filteredChambres">
+          <td>{{ chambre.idChambre }}</td>
+          <td>{{ chambre.nom }}</td>
+          <td>{{ chambre.type }}</td>
+          <td>{{ chambre.prixParNuit }} €</td>
+          <td><img [src]="chambre.imageUrl" alt="Chambre" class="room-image"></td>
+          <td class="action-buttons">
+            <i class="fa-solid fa-pen action-icon edit-icon" (click)="openDialog(chambre)"></i>
+            <i class="fa-solid fa-trash action-icon delete-icon" (click)="deleteChambre(chambre.idChambre!)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

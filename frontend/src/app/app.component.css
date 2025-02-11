@@ -1,6 +1,62 @@
-/* ✅ Ajoute un espace sous le header */
+/* 🌟 Style global */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  background: #f8f9fa; /* 🟡 Couleur de fond légère */
+}
+
+/* 📌 Conteneur principal avec + d'espace */
 .app-container {
-    margin-top: 80px; /* Ajuste cette valeur selon la hauteur de ton header */
-    padding: 20px; /* Ajoute un léger padding pour aérer le contenu */
-  }
-  
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px; /* 🔹 DOUBLE ESPACE ! */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 🎩 Header */
+app-header {
+  width: 100%;
+  background: #343a40;
+  color: white;
+  padding: 30px 0; /* 🔹 DOUBLE ESPACE ! */
+  text-align: center;
+  font-size: 22px; /* 🔹 Texte plus grand */
+  font-weight: bold;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+/* 🏠 Contenu principal */
+router-outlet + * {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px; /* 🔹 Augmentation de la largeur */
+  margin: auto;
+  padding: 40px; /* 🔹 DOUBLE ESPACE ! */
+  box-sizing: border-box;
+}
+
+/* 📌 Footer fixe avec + d'espace */
+app-footer {
+  width: 100%;
+  background: #343a40;
+  color: white;
+  text-align: center;
+  padding: 30px 0; /* 🔹 DOUBLE ESPACE ! */
+  font-size: 18px; /* 🔹 Texte plus grand */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.1);
+}

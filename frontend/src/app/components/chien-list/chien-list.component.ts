@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // ✅ Correction FormsModule ajouté
 import { ChienService, Chien } from '../../services/chien.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChienDialogComponent } from '../chien-dialog/chien-dialog.component';
@@ -9,10 +10,14 @@ import { ChienDialogComponent } from '../chien-dialog/chien-dialog.component';
   standalone: true,
   templateUrl: './chien-list.component.html',
   styleUrls: ['./chien-list.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, FormsModule] // ✅ Correction FormsModule ajouté ici
 })
 export class ChienListComponent implements OnInit {
   chiens: Chien[] = [];
+  filteredChiens: Chien[] = [];
+  searchTerm: string = '';
+  filterRace: string = '';
+  uniqueRaces: string[] = []; // ✅ Correction : Définition de uniqueRaces
 
   constructor(private chienService: ChienService, public dialog: MatDialog) {}
 
@@ -20,12 +25,8 @@ export class ChienListComponent implements OnInit {
     this.loadChiens();
   }
 
-  // ✅ Charger la liste des chiens et transformer les ID parents en noms
   loadChiens(): void {
     this.chienService.getChiens().subscribe((data) => {
-      console.log("✅ Données reçues :", data); // 🔍 Debug
-
-      // ✅ Création d'une Map {id: nom} pour retrouver les parents rapidement
       const chiensMap = new Map<number, string>();
       data.forEach(chien => {
         if (chien.id) {
@@ -33,34 +34,77 @@ export class ChienListComponent implements OnInit {
         }
       });
 
-      // ✅ Transformation des ID parents en noms
       this.chiens = data.map(chien => ({
         ...chien,
         nomPere: chien.idPere ? chiensMap.get(chien.idPere) || 'N/A' : 'N/A',
         nomMere: chien.idMere ? chiensMap.get(chien.idMere) || 'N/A' : 'N/A'
       }));
 
-      console.log("📌 Chiens après transformation :", this.chiens); // 🔍 Vérifie les noms des parents
+      this.filteredChiens = [...this.chiens];
+      this.updateUniqueRaces();
     });
   }
 
-  // ✅ Supprimer un chien
-  deleteChien(id: number): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce chien ?')) {
-      this.chienService.deleteChien(id).subscribe(() => {
-        this.loadChiens();
-      });
-    }
+  updateUniqueRaces(): void {
+    this.uniqueRaces = Array.from(new Set(this.chiens.map(c => c.race)));
   }
 
-  // ✅ Calculer l'âge
+  filterChiens(): void {
+    this.filteredChiens = this.chiens.filter(chien => 
+      chien.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+      (this.filterRace ? chien.race === this.filterRace : true)
+    );
+    this.sortChiens();
+  }
+
+  sortColumn: string = ''; 
+  sortDirection: number = 0; // 0 = none, 1 = asc, -1 = desc
+  
+  sortBy(column: string): void {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 1 ? -1 : this.sortDirection === -1 ? 0 : 1; // Cycle: asc → desc → none
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 1; // Commence par le tri ascendant
+    }
+    this.sortChiens();
+  }
+  
+  sortChiens(): void {
+    if (this.sortDirection === 0) {
+      this.filteredChiens = [...this.chiens]; // Réinitialise l'ordre d'origine
+      return;
+    }
+  
+    this.filteredChiens.sort((a, b) => {
+      let valueA = a[this.sortColumn as keyof Chien] || '';
+      let valueB = b[this.sortColumn as keyof Chien] || '';
+  
+      if (typeof valueA === 'string') valueA = valueA.toLowerCase();
+      if (typeof valueB === 'string') valueB = valueB.toLowerCase();
+  
+      return (valueA > valueB ? 1 : -1) * this.sortDirection;
+    });
+  }
+  
+  // ✅ Mise à jour de l'icône en fonction du tri actif
+  getSortIcon(column: string): string {
+    if (this.sortColumn !== column) return 'fa-solid fa-sort'; // Mode "none"
+    return this.sortDirection === 1 
+      ? 'fa-solid fa-sort-up animated-sort'   // Mode "asc"
+      : this.sortDirection === -1 
+        ? 'fa-solid fa-sort-down animated-sort' // Mode "desc"
+        : 'fa-solid fa-sort'; // Mode "none"
+  }
+  
+  
+
   getAge(dateNaissance: string): number {
     const birthDate = new Date(dateNaissance);
     const today = new Date();
     return today.getFullYear() - birthDate.getFullYear();
   }
 
-  // ✅ Voir les détails d'un chien
   viewDetails(chien: Chien): void {
     alert(`🐶 Détails du chien :
     \nNom : ${chien.nom}
@@ -71,11 +115,10 @@ export class ChienListComponent implements OnInit {
     \nMère : ${chien.nomMere}`);
   }
 
-  // ✅ Ouvrir le dialogue pour modifier ou ajouter un chien
   openDialog(chien?: Chien): void {
     const dialogRef = this.dialog.open(ChienDialogComponent, {
       width: '500px',
-      data: chien ? { ...chien } : {} // Envoie les données du chien si c'est une modification
+      data: chien ? { ...chien } : {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -83,5 +126,14 @@ export class ChienListComponent implements OnInit {
         this.loadChiens();
       }
     });
+  }
+
+  // ✅ Correction : Ajout de deleteChien
+  deleteChien(id: number): void {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce chien ?')) {
+      this.chienService.deleteChien(id).subscribe(() => {
+        this.loadChiens();
+      });
+    }
   }
 }
