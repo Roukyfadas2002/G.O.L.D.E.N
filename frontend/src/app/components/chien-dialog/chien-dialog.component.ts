@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChienService, Chien } from '../../services/chien.service';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatOptionModule } from '@angular/material/core'; // ✅ Correction : Ajout du module nécessaire
 
 @Component({
   selector: 'app-chien-dialog',
@@ -16,17 +17,17 @@ import { MatInputModule } from '@angular/material/input';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatOptionModule // ✅ Import correct pour mat-option
   ]
 })
 export class ChienDialogComponent implements OnInit {
   chienForm: FormGroup;
-  chiens: Chien[] = []; // ✅ Liste des chiens pour sélectionner le père/mère
-  isEditMode: boolean = false; // ✅ Mode édition ou création
+  chiens: Chien[] = [];
+  isEditMode: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<ChienDialogComponent>,
@@ -34,16 +35,16 @@ export class ChienDialogComponent implements OnInit {
     private fb: FormBuilder,
     private chienService: ChienService
   ) {
-    this.isEditMode = !!data?.id; // ✅ Vérifie si on est en mode édition
+    this.isEditMode = !!data?.id;
 
+    // ✅ Initialisation correcte du formulaire
     this.chienForm = this.fb.group({
       nom: [data?.nom || '', Validators.required],
       race: [data?.race || '', Validators.required],
       dateNaissance: [data?.dateNaissance || '', Validators.required],
-      pere: [data?.idPere ? data.idPere : null], // ✅ Stocke directement l'ID
-      mere: [data?.idMere ? data.idMere : null]  // ✅ Stocke directement l'ID
+      pere: [data?.idPere || null],  // ✅ Utilisation de `idPere`
+      mere: [data?.idMere || null]   // ✅ Utilisation de `idMere`
     });
-    
     
   }
 
@@ -57,15 +58,36 @@ export class ChienDialogComponent implements OnInit {
     if (this.chienForm.valid) {
       const formValues = this.chienForm.value;
 
-      // ✅ Correction : Envoie les parents sous forme { idChien: number }
-      const chienData = {
+      // ✅ Vérifie et transforme correctement les parents
+      const chienData: any = {
         ...formValues,
         pere: formValues.pere ? { idChien: formValues.pere } : null,
         mere: formValues.mere ? { idChien: formValues.mere } : null
       };
 
       console.log("📤 Données envoyées :", chienData);
-      this.dialogRef.close(chienData);
+
+      if (this.isEditMode) {
+        this.chienService.updateChien(this.data!.id!, chienData).subscribe({
+          next: (response) => {
+            console.log("✅ Chien modifié avec succès :", response);
+            this.dialogRef.close(response);
+          },
+          error: (err) => {
+            console.error("❌ Erreur lors de la modification :", err);
+          }
+        });
+      } else {
+        this.chienService.addChien(chienData).subscribe({
+          next: (response) => {
+            console.log("✅ Chien créé avec succès :", response);
+            this.dialogRef.close(response);
+          },
+          error: (err) => {
+            console.error("❌ Erreur lors de la création :", err);
+          }
+        });
+      }
     } else {
       console.error("❌ Formulaire invalide !");
     }

@@ -50,7 +50,6 @@
 .table-responsive {
   width: 100%;
   overflow-x: auto;
-  max-width: 1100px;
 }
 
 .custom-table {

@@ -1,57 +1,56 @@
-<h2 mat-dialog-title class="dialog-title">
-    {{ isEditMode ? 'Modifier' : 'Créer' }} un Chien
-  </h2>
-  
-  <div class="dialog-wrapper">
-    <div mat-dialog-content class="dialog-container">
-      <form [formGroup]="chienForm">
-        <div class="form-grid">
-          <!-- Ligne 1 : Nom et Race -->
-          <mat-form-field appearance="outline" class="form-field centered-input">
-            <mat-label>Nom</mat-label>
-            <input matInput formControlName="nom" required>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline" class="form-field centered-input">
-            <mat-label>Race</mat-label>
-            <input matInput formControlName="race" required>
-          </mat-form-field>
-  
-          <!-- Ligne 2 : Date de naissance -->
-          <mat-form-field appearance="outline" class="form-field full-width centered-input">
-            <mat-label>Date de Naissance</mat-label>
-            <input matInput type="date" formControlName="dateNaissance" required>
-          </mat-form-field>
-  
-          <!-- Ligne 3 : Père et Mère -->
-          <mat-form-field appearance="outline" class="form-field centered-input">
-            <mat-label>Père</mat-label>
-            <mat-select formControlName="pere">
-              <mat-option [value]="null">Aucun</mat-option>
-              <mat-option *ngFor="let chien of chiens" [value]="chien.id">
-                {{ chien.nom }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline" class="form-field centered-input">
-            <mat-label>Mère</mat-label>
-            <mat-select formControlName="mere">
-              <mat-option [value]="null">Aucune</mat-option>
-              <mat-option *ngFor="let chien of chiens" [value]="chien.id">
-                {{ chien.nom }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </form>
-    </div>
-  
-    <div mat-dialog-actions class="dialog-actions">
-      <button mat-button class="cancel-btn" (click)="onCancel()">Annuler</button>
-      <button mat-button color="primary" class="submit-btn" (click)="onSubmit()" [disabled]="chienForm.invalid">
-        {{ isEditMode ? 'Modifier' : 'Créer' }}
-      </button>
-    </div>
+<div class="dialog-container">
+  <h2 mat-dialog-title>{{ isEditMode ? 'Modifier' : 'Créer' }} un Chien</h2>
+  <div mat-dialog-content class="dialog-content">
+    <form [formGroup]="chienForm">
+      
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nom</mat-label>
+          <input matInput formControlName="nom" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Race</mat-label>
+          <input matInput formControlName="race" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Date de Naissance</mat-label>
+          <input matInput type="date" formControlName="dateNaissance" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Père</mat-label>
+          <mat-select formControlName="pere">
+            <mat-option [value]="null">Aucun</mat-option>
+            <mat-option *ngFor="let chien of chiens" [value]="chien.id">
+              {{ chien.nom }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Mère</mat-label>
+          <mat-select formControlName="mere">
+            <mat-option [value]="null">Aucune</mat-option>
+            <mat-option *ngFor="let chien of chiens" [value]="chien.id">
+              {{ chien.nom }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </form>
   </div>
-  
+
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()">Annuler</button>
+    <button mat-button color="primary" (click)="onSubmit()" [disabled]="chienForm.invalid">
+      {{ isEditMode ? 'Modifier' : 'Créer' }}
+    </button>
+  </div>
+</div>
