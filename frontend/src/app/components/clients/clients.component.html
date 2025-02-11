@@ -1,23 +1,32 @@
 <div class="page-container">
-  <h1 class="page-title">📋 Liste des Clients</h1> <!-- ✅ Grand titre bien visible -->
+  <h1 class="page-title">📋 Gestion des Clients</h1>
 
+  <!-- ✅ Barre de recherche et bouton Ajouter -->
+  <div class="toolbar">
+    <input type="text" [(ngModel)]="searchTerm" (input)="filterClients()" placeholder="🔍 Rechercher...">
+    <button class="btn-add" (click)="openDialog()">
+      <i class="fa-solid fa-user-plus"></i> Ajouter un Client
+    </button>
+  </div>
+
+  <!-- ✅ Tableau des clients -->
   <div class="table-container">
     <table class="styled-table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Email</th>
+          <th (click)="sortBy('idClient')">ID <i [class]="getSortIcon('idClient')"></i></th>
+          <th (click)="sortBy('nom')">Nom <i [class]="getSortIcon('nom')"></i></th>
+          <th (click)="sortBy('prenom')">Prénom <i [class]="getSortIcon('prenom')"></i></th>
+          <th (click)="sortBy('email')">Email <i [class]="getSortIcon('email')"></i></th>
           <th>Téléphone</th>
           <th>Adresse</th>
-          <th>Rôle</th>
-          <th>Créé le</th>
+          <th (click)="sortBy('roleName')">Rôle <i [class]="getSortIcon('roleName')"></i></th>
+          <th (click)="sortBy('createdAt')">Créé le <i [class]="getSortIcon('createdAt')"></i></th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let client of clients">
+        <tr *ngFor="let client of filteredClients">
           <td>{{ client.idClient }}</td>
           <td>{{ client.nom }}</td>
           <td>{{ client.prenom }}</td>
@@ -25,14 +34,25 @@
           <td>{{ client.telephone }}</td>
           <td>{{ client.adresse }}</td>
           <td>
-            <span class="role" [ngClass]="{'admin': client.roleName === 'Admin', 'client': client.roleName === 'User'}">
-              <i class="fas" [ngClass]="{'fa-user-shield': client.roleName === 'Admin', 'fa-user': client.roleName === 'User'}"></i>
+            <span class="role" [ngClass]="{
+                'admin': client.roleName === 'Admin',
+                'user': client.roleName === 'User'
+              }">
+              <i class="fas" [ngClass]="{
+                'fa-user-shield': client.roleName === 'Admin',
+                'fa-user': client.roleName === 'User'
+              }"></i>
               {{ client.roleName }}
             </span>
-          </td>        
+          </td>
           <td>{{ client.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
-          <td>
-            <button class="details-btn" (click)="viewDetails(client)">Détails</button>
+          <td class="action-buttons">
+            <button class="btn-action edit" (click)="openDialog(client)">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="btn-action delete" (click)="deleteClient(client.idClient!)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
           </td>
         </tr>
       </tbody>

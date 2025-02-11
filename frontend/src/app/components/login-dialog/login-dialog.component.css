@@ -1,29 +1,118 @@
-.login-container {
-    background: #F5DEB3;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
+/* ✅ Conteneur principal du dialogue */
+.custom-dialog {
+  background: #3A2F2A !important;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.5s ease-in-out;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* ✅ Animation d’apparition */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  input {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  button {
-    background: #DAA520;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .error {
-    color: red;
-    margin-top: 10px;
-  }
-  
+}
+
+/* ✅ Titre et sous-titre */
+.dialog-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #E6D8C7;
+}
+
+.dialog-subtitle {
+  font-size: 1rem;
+  color: #A6896D;
+  margin-bottom: 15px;
+}
+
+/* ✅ Champs de saisie */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #5A453A;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+
+.input-wrapper:focus-within {
+  background: #7B5E57;
+}
+
+.input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #E6D8C7;
+  font-size: 1rem;
+  outline: none;
+}
+
+/* ✅ Icônes dans les champs */
+.icon {
+  margin-right: 10px;
+  color: #E6D8C7;
+}
+
+.toggle-password {
+  cursor: pointer;
+  color: #E6D8C7;
+  margin-left: 10px;
+}
+
+.toggle-password:hover {
+  color: #A6896D;
+}
+
+/* ✅ Message d’erreur */
+.error-text {
+  font-size: 0.9rem;
+  color: #FF6B6B;
+  text-align: left;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+/* ✅ Bouton de connexion */
+.login-btn {
+  width: 100%;
+  background: #E6D8C7;
+  color: #3A2F2A;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  border: none;
+}
+
+.login-btn:hover {
+  background: #A6896D;
+  color: #E6D8C7;
+}
+
+/* ✅ Désactiver le bouton si invalide */
+.login-btn:disabled {
+  background: #777;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* ✅ Message d'erreur global */
+.error-message {
+  color: #FF6B6B;
+  font-size: 1rem;
+  margin-top: 10px;
+}

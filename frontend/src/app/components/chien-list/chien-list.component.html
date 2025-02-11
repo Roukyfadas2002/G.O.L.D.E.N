@@ -1,6 +1,15 @@
 <div class="full-page">
   <h2 class="title">🐶 Gestion des Chiens</h2>
 
+  <!-- ✅ Section de filtrage -->
+  <div class="filter-container">
+    <input type="text" placeholder="🔍 Rechercher par nom..." [(ngModel)]="searchTerm" (input)="filterChiens()">
+    <select [(ngModel)]="filterRace" (change)="filterChiens()">
+      <option value="">Toutes les races</option>
+      <option *ngFor="let race of uniqueRaces" [value]="race">{{ race }}</option>
+    </select>
+  </div>
+
   <!-- ✅ Bouton pour ajouter un chien -->
   <div class="button-container">
     <button class="btn-add" (click)="openDialog()">
@@ -8,24 +17,24 @@
     </button>
   </div>
 
-  <!-- ✅ Tableau responsive -->
+  <!-- ✅ Tableau des chiens -->
   <div class="table-responsive">
     <table class="custom-table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Nom</th>
-          <th>Race</th>
-          <th>Date de Naissance</th>
-          <th>Âge</th>
+          <th (click)="sortBy('id')">ID <i [class]="getSortIcon('id')"></i></th>
+          <th (click)="sortBy('nom')">Nom <i [class]="getSortIcon('nom')"></i></th>
+          <th (click)="sortBy('race')">Race <i [class]="getSortIcon('race')"></i></th>
+          <th (click)="sortBy('dateNaissance')">Date de Naissance <i [class]="getSortIcon('dateNaissance')"></i></th>
+          <th (click)="sortBy('age')">Âge <i [class]="getSortIcon('age')"></i></th>
           <th>Père</th>
           <th>Mère</th>
-          <th>Créé le</th>
+          <th (click)="sortBy('createdAt')">Créé le <i [class]="getSortIcon('createdAt')"></i></th>
           <th>Actions</th>
         </tr>
-      </thead>
+      </thead>      
       <tbody>
-        <tr *ngFor="let chien of chiens">
+        <tr *ngFor="let chien of filteredChiens">
           <td>{{ chien.id }}</td>
           <td>{{ chien.nom }}</td>
           <td>{{ chien.race }}</td>
@@ -35,19 +44,10 @@
           <td class="parent">{{ chien.nomMere || 'N/A' }}</td>
           <td>{{ chien.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
           <td class="action-buttons">
-            <!-- ✅ Bouton Détails -->
             <i class="fa-solid fa-eye action-icon details-icon" (click)="viewDetails(chien)"></i>
-
-            <!-- ✅ Bouton Modifier -->
             <i class="fa-solid fa-pen action-icon edit-icon" (click)="openDialog(chien)"></i>
-
-            <!-- ✅ Bouton Supprimer -->
-            <i 
-            class="fa-solid fa-trash action-icon delete-icon" 
-            *ngIf="chien.id !== undefined" 
-            (click)="deleteChien(chien.id!)">
-          </i> 
-        </td>
+            <i class="fa-solid fa-trash action-icon delete-icon" (click)="deleteChien(chien.id!)"></i>
+          </td>
         </tr>
       </tbody>
     </table>

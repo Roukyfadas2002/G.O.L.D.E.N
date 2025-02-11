@@ -1,78 +1,103 @@
-/* ✅ Enlève la séparation entre le titre et le formulaire */
-::ng-deep .mat-dialog-container {
-    padding: 0 !important;
-    background: #f7e6c4 !important; /* 🌟 Uniformisation du fond */
-    border-radius: 12px !important; /* Arrondi doux */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre légère */
-  }
-  
-  /* ✅ Titre bien intégré */
-  .dialog-title {
-    padding: 20px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-    width: 100%;
-    background: #f7e6c4 !important; /* Uniforme */
-    margin: 0; /* Supprime la marge */
-    border-bottom: none !important; /* Supprime toute séparation */
-  }
-  
-  /* ✅ Contenu bien intégré sans séparation */
-  .dialog-wrapper {
-    padding: 25px;
-    background: #f7e6c4 !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0; /* Supprime toute séparation */
-  }
-  
-  /* ✅ Suppression de la ligne grise */
-  .dialog-actions {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 15px;
-    background: #f7e6c4 !important; /* Uniformisation */
-    border-top: none !important; /* ❌ Supprime la ligne */
-    margin-top: 0 !important;
-  }
-  
-  /* ✅ Conteneur global bien centré */
-  .dialog-container {
-    width: 100%;
-    max-width: 450px;
-    padding: 20px;
-    background: #f7e6c4 !important; /* 🌟 Même couleur partout */
-  }
-  
-  /* ✅ Organisation du formulaire en grille */
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Deux colonnes */
-    gap: 15px;
-    width: 100%;
-  }
-  
-  /* ✅ Champ pleine largeur pour la date */
-  .full-width {
-    grid-column: span 2; /* La date prend toute la ligne */
-  }
-  
-  /* ✅ Centre bien les champs */
-  .form-field {
-    width: 100%;
-  }
-  
-  /* ✅ Ajuste les boutons */
-  .cancel-btn {
-    background: #dc3545 !important; /* Rouge */
-    color: white !important;
-  }
-  
-  .submit-btn {
-    background: #c69c6d !important; /* Marron doré */
-    color: white !important;
-  }
-  
+/* ✅ Conteneur principal du dialogue */
+.custom-dialog {
+  background: #3A2F2A !important; /* 🎨 Marron foncé */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ Titre */
+.dialog-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #E6D8C7;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #A6896D;
+}
+
+/* ✅ Contenu du formulaire */
+.dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px 0;
+}
+
+/* ✅ Champs en ligne */
+.input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.input-group .custom-field {
+  flex: 1;
+}
+
+/* ✅ Style des champs */
+.custom-field {
+  width: 100%;
+}
+
+.custom-field .mat-form-field-wrapper {
+  background-color: #5A453A !important; /* 🎨 Marron clair */
+  border-radius: 6px;
+}
+
+.custom-field input,
+.custom-field select {
+  color: #E6D8C7 !important; /* 🎨 Texte beige */
+}
+
+/* ✅ Liste déroulante */
+mat-select {
+  color: #E6D8C7 !important;
+}
+
+/* ✅ Actions (Boutons) */
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+}
+
+/* ✅ Style des boutons */
+button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Bouton Annuler */
+.cancel-btn {
+  background-color: #A6896D;
+  color: #3A2F2A;
+}
+
+.cancel-btn:hover {
+  background-color: #E6D8C7;
+  color: #3A2F2A;
+}
+
+/* ✅ Bouton Modifier / Créer */
+.confirm-btn {
+  background-color: #E6D8C7;
+  color: #3A2F2A;
+}
+
+.confirm-btn:hover {
+  background-color: #A6896D;
+  color: #E6D8C7;
+}
+
+/* ✅ Désactiver le bouton si formulaire invalide */
+.confirm-btn:disabled {
+  background-color: #777;
+  color: #ccc;
+  cursor: not-allowed;
+}

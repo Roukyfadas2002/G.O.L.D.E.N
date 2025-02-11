@@ -14,16 +14,24 @@ public class Client {
     private String nom;
     private String prenom;
     private String email;
-    private String password; // ✅ Stockage du mot de passe
+    private String password;
     private String telephone;
     private String adresse;
+    
+    @Column(nullable = false, updatable = false) // ✅ `createdAt` ne doit pas être modifiable
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "id_role", referencedColumnName = "id_role") // ✅ Relation avec la table ROLE
+    @JoinColumn(name = "id_role", referencedColumnName = "id_role", nullable = false)
     private Role role;
 
-    // Getters et Setters
+    // ✅ Remplit automatiquement `createdAt` lors de la création d'un client
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    // ✅ Getters et Setters
     public Long getIdClient() { return idClient; }
     public void setIdClient(Long idClient) { this.idClient = idClient; }
 

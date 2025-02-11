@@ -1,128 +1,120 @@
-/* S'assure que le body et la page prennent toute la hauteur */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
+/* ✅ Conteneur principal */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #3A2F2A; /* Marron foncé */
+  color: #E6D8C7; /* Beige doux */
+  padding: 60px 20px;
+}
+
+/* ✅ Titre principal */
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #E6D8C7;
+  animation: fadeInDown 0.8s ease-in-out;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  opacity: 0.8;
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+/* ✅ Section des services */
+.content {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+/* ✅ Cartes des services */
+.service-card {
+  background: #5A453A; /* Marron chaud */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  width: 320px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+  text-align: center;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* ✅ Icônes */
+.service-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+/* ✅ Titres */
+.service-card h2 {
+  font-size: 1.8rem;
+  color: #E6D8C7;
+  margin-bottom: 10px;
+}
+
+/* ✅ Texte */
+.service-card p {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 15px;
+}
+
+/* ✅ Boutons */
+.btn {
+  display: inline-block;
+  background: #E6D8C7;
+  color: #3A2F2A;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.btn:hover {
+  background: #A6896D;
+  color: #E6D8C7;
+}
+
+/* ✅ Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  /* Conteneur principal */
-  .home-container {
-    max-width: 1000px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #fff3e0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    text-align: center;
-    flex: 1;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Section principale */
-  .hero {
-    background: linear-gradient(135deg, #ffcc80, #ffb74d);
-    padding: 30px;
-    border-radius: 10px;
-    color: #fff;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .hero h1 {
-    margin-bottom: 10px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
+}
+
+/* ✅ Responsive */
+@media (max-width: 1024px) {
   .content {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-  }
-  
-  .section {
-    width: 45%;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }
-  
-  .section h2 {
-    color: #d48806;
-  }
-  
-  /* Style de la section Vente de Produits */
-  .product-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-    gap: 20px; /* Ajoute un espace entre la section et les boutons */
-  }
-  
-  /* Bloc de texte et image des produits */
-  .product-info {
-    width: 60%;
-    text-align: left;
-  }
-  
-  /* Place les boutons à droite et les centre verticalement */
-  .cta-buttons {
-    width: 35%;
-    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center; /* Centre les boutons verticalement */
-    height: 100%;
-  }
-  
-  /* Style des boutons */
-  .btn {
-    display: inline-block;
-    padding: 12px 20px;
-    margin: 10px 0;
-    background: #d48806;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: 0.3s;
-    text-align: center;
-    width: 100%; /* Pour que tous les boutons aient la même largeur */
-  }
-  
-  .btn:hover {
-    background: #b36b00;
-  }
-  
-  /* Placeholder pour l’image */
-  .image-placeholder {
-    width: 100%;
-    height: 150px;
-    background: #f5f5f5;
-    border: 1px dashed #ccc;
-    margin-top: 10px;
-    display: flex;
     align-items: center;
-    justify-content: center;
-    font-style: italic;
-    color: #aaa;
   }
-  
-  /* Empêche le footer de passer au-dessus des boutons */
-  .footer {
-    margin-top: auto;
-    background: #444;
-    color: white;
-    text-align: center;
-    padding: 15px;
-  }
-  
-  /* Ajoute de l'espace en bas pour éviter le chevauchement */
-  .app-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 40px; /* Espace supplémentaire en bas */
-  }
-  
+}

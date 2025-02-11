@@ -1,29 +1,44 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login-dialog',
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.css'],
-  imports: [CommonModule, FormsModule] // ✅ Ajout pour corriger *ngIf et ngModel
-
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule] // ✅ Ajout de ReactiveFormsModule pour formGroup
 })
 export class LoginDialogComponent {
-  email: string = '';
-  password: string = '';
+  loginForm: FormGroup;
+  showPassword: boolean = false; // ✅ Correction: initialisation correcte
   errorMessage: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
+
+  /**
+   * 🔐 Basculer la visibilité du mot de passe
+   */
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   /**
    * 🔐 Gère la connexion de l'utilisateur
    */
   onLogin(): void {
-    console.log("👤 Tentative de connexion avec :", this.email);
+    if (this.loginForm.invalid) return;
 
-    this.authService.login(this.email, this.password).subscribe({
+    const { email, password } = this.loginForm.value;
+    console.log("👤 Tentative de connexion avec :", email);
+
+    this.authService.login(email, password).subscribe({
       next: (response) => {
         if (response.success) {
           console.log("🎉 Connexion réussie !");

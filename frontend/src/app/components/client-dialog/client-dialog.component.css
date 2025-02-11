@@ -1,0 +1,104 @@
+/* ✅ Conteneur principal du dialogue */
+.custom-dialog {
+    background: #3A2F2A !important; /* 🎨 Marron foncé (plus de blanc) */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* ✅ Titre */
+  .dialog-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #E6D8C7;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #A6896D;
+  }
+  
+  /* ✅ Contenu du formulaire */
+  .dialog-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 0;
+  }
+  
+  /* ✅ Champs en ligne */
+  .input-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .input-group .custom-field {
+    flex: 1;
+  }
+  
+  /* ✅ Style des champs */
+  .custom-field {
+    width: 100%;
+  }
+  
+  .custom-field .mat-form-field-wrapper {
+    background-color: #5A453A !important; /* 🎨 Marron foncé */
+    border-radius: 6px;
+  }
+  
+  .custom-field input,
+  .custom-field textarea,
+  .custom-field select {
+    color: #E6D8C7 !important; /* 🎨 Texte beige */
+  }
+  
+  /* ✅ Liste déroulante */
+  mat-select {
+    color: #E6D8C7 !important;
+  }
+  
+  /* ✅ Actions (Boutons) */
+  .dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+  }
+  
+  /* ✅ Style des boutons */
+  button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* ✅ Bouton Annuler */
+  .cancel-btn {
+    background-color: #A6896D;
+    color: #3A2F2A;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #E6D8C7;
+    color: #3A2F2A;
+  }
+  
+  /* ✅ Bouton Modifier / Créer */
+  .confirm-btn {
+    background-color: #E6D8C7;
+    color: #3A2F2A;
+  }
+  
+  .confirm-btn:hover {
+    background-color: #A6896D;
+    color: #E6D8C7;
+  }
+  
+  /* ✅ Désactiver le bouton si formulaire invalide */
+  .confirm-btn:disabled {
+    background-color: #777;
+    color: #ccc;
+    cursor: not-allowed;
+  }

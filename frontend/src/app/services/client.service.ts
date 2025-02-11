@@ -2,15 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 
+// ✅ Modèle TypeScript pour correspondre au backend
+export interface Role {
+  idRole: number;
+  nomRole: string;
+}
+
 export interface Client {
-  idClient: number;  // ✅ Correction : doit être `idClient` (comme dans le backend)
+  idClient: number;
   nom: string;
   prenom: string;
   email: string;
   telephone: string;
   adresse: string;
-  createdAt: string;
-  roleName: string;
+  createdAt: string | null;
+  roleName: string; // ✅ Assurer que le rôle est bien sous `roleName`
 }
 
 @Injectable({
@@ -21,20 +27,35 @@ export class ClientService {
 
   constructor(private http: HttpClient) {}
 
+  // ✅ Récupérer tous les clients avec transformation des données
   getClients(): Observable<Client[]> {
-    return this.http.get<any[]>(this.BASE_URL).pipe(
+    return this.http.get<Client[]>(this.BASE_URL).pipe(
       map(clients =>
         clients.map(client => ({
-          idClient: client.idClient, // ✅ Adapter au format du backend
-          nom: client.nom,
-          prenom: client.prenom,
-          email: client.email,
-          telephone: client.telephone,
-          adresse: client.adresse,
-          createdAt: client.createdAt,
-          roleName: client.roleName || 'Inconnu' // ✅ Gestion du cas où le rôle est manquant
+          ...client,
+          role: client.roleName || { idRole: 0, nomRole: 'Inconnu' } // ✅ Gestion du rôle manquant
         }))
       )
     );
+  }
+
+  // ✅ Récupérer un client par son ID
+  getClientById(id: number): Observable<Client> {
+    return this.http.get<Client>(`${this.BASE_URL}/${id}`);
+  }
+
+  // ✅ Ajouter un client
+  addClient(client: Client): Observable<Client> {
+    return this.http.post<Client>(this.BASE_URL, client);
+  }
+
+  // ✅ Modifier un client
+  updateClient(id: number, client: Client): Observable<Client> {
+    return this.http.put<Client>(`${this.BASE_URL}/${id}`, client);
+  }
+
+  // ✅ Supprimer un client
+  deleteClient(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.BASE_URL}/${id}`);
   }
 }

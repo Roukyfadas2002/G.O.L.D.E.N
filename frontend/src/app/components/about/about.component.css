@@ -1,74 +1,142 @@
+/* ✅ Conteneur principal */
 .about-container {
-    max-width: 1000px;
-    margin: 50px auto;
-    padding: 50px 20px; /* Augmente l’espace en haut et en bas */
-    background: #fff3e0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    text-align: center;
+  text-align: center;
+  background: #3A2F2A; /* Marron foncé */
+  color: #E6D8C7; /* Beige doux */
+  padding: 60px 20px;
+}
+
+/* ✅ En-tête */
+.about-hero h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  animation: fadeInDown 0.8s ease-in-out;
+}
+
+.about-hero p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  opacity: 0.8;
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+/* ✅ Section des valeurs */
+.values {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+/* ✅ Cartes des valeurs */
+.value-card {
+  background: #5A453A; /* Marron chaud */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  width: 320px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+  text-align: center;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* ✅ Icônes */
+.icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+/* ✅ Titres */
+.value-card h2 {
+  font-size: 1.8rem;
+  color: #E6D8C7;
+  margin-bottom: 10px;
+}
+
+/* ✅ Texte */
+.value-card p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* ✅ Équipe */
+.team-title {
+  font-size: 2rem;
+  margin-top: 50px;
+  text-transform: uppercase;
+}
+
+/* ✅ Section équipe */
+.team {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+/* ✅ Cartes des membres */
+.team-member {
+  background: #5A453A;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 250px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.team-member:hover {
+  transform: scale(1.05);
+}
+
+/* ✅ Images des membres */
+.team-image img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 3px solid #A6896D;
+}
+
+/* ✅ Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  /* Introduction */
-  .intro {
-    font-size: 18px;
-    color: #444;
-    margin-bottom: 40px; /* Plus d’espace sous l’intro */
-    line-height: 1.6;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Valeurs de l'élevage */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Responsive */
+@media (max-width: 1024px) {
   .values {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 60px; /* Plus d’espace sous les valeurs */
-  }
-  
-  .value {
-    width: 45%;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: left;
-  }
-  
-  .value h2 {
-    color: #d48806;
-  }
-  
-  .value p {
-    color: #555;
-    line-height: 1.5;
-  }
-  
-  /* Section équipe */
-  .team {
-    display: flex;
-    justify-content: center;
-    gap: 30px; /* Augmente l’espace entre les membres */
-    margin-bottom: 80px; /* Plus d’espace sous l’équipe */
-  }
-  
-  .team-member {
-    width: 30%;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .image-placeholder {
-    width: 100%;
-    height: 180px; /* Augmente la taille des images */
-    background: #f5f5f5;
-    border: 1px dashed #ccc;
-    margin-bottom: 15px;
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-style: italic;
-    color: #aaa;
   }
   
+  .team {
+    flex-direction: column;
+    align-items: center;
+  }
+}

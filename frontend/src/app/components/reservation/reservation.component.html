@@ -1,16 +1,25 @@
 <div class="reservation-container">
+  <!-- ✅ Titre principal -->
   <h1 class="title">📅 Réservez votre Chambre</h1>
   
+  <!-- ✅ Liste des chambres -->
   <div class="chambres-list">
     <div class="chambre-card" *ngFor="let chambre of chambres">
+      <!-- ✅ Image -->
       <div class="image-container">
         <img [src]="chambre.imageUrl || 'assets/images/default-room.jpg'" alt="Image de la chambre">
       </div>
+
+      <!-- ✅ Informations de la chambre -->
       <div class="chambre-info">
         <h2>{{ chambre.nom }}</h2>
-        <p class="type">🛏️ Type: <strong>{{ chambre.type }}</strong></p>
-        <p class="prix">💰 Prix par nuit: <strong>{{ chambre.prixParNuit }} €</strong></p>
-        <button class="btn-reserver" (click)="reserverChambre(chambre)">🛒 Réserver</button>
+        <p class="type">🛏️ <strong>{{ chambre.type }}</strong></p>
+        <p class="prix">💰 <strong>{{ chambre.prixParNuit }} € / nuit</strong></p>
+
+        <!-- ✅ Bouton de réservation -->
+        <button class="btn-reserver" (click)="reserverChambre(chambre)">
+          <i class="fa-solid fa-calendar-check"></i> Réserver
+        </button>
       </div>
     </div>
   </div>

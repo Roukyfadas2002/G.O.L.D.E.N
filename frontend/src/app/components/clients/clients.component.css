@@ -1,124 +1,187 @@
-/* Conteneur global */
+/* ✅ Style global */
 .page-container {
-  max-width: 1200px;
-  margin: 60px auto; /* ✅ Ajout d'un espace en haut */
+  background: #3A2F2A; /* Marron foncé */
+  color: #E6D8C7; /* Texte beige */
   padding: 20px;
-  background: #FFF8DC; /* Crème */
-  border-radius: 12px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
-  text-align: center;
-  font-family: 'Arial', sans-serif;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Grand Titre de la Page */
+/* ✅ Titre */
 .page-title {
-  font-size: 32px;
+  text-align: center;
+  font-size: 2rem;
   font-weight: bold;
-  color: #8B4513; /* Marron Golden Retriever */
-  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: #E6D8C7;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #A6896D;
 }
 
-/* Conteneur du tableau */
+/* ✅ Barre de recherche et ajout */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.toolbar input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  background: #5A453A;
+  color: #E6D8C7;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.toolbar input::placeholder {
+  color: #E6D8C7;
+}
+
+.toolbar input:focus {
+  background: #A6896D;
+}
+
+.btn-add {
+  background-color: #A6896D;
+  color: #3A2F2A;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: none;
+}
+
+.btn-add:hover {
+  background: #E6D8C7;
+  color: #3A2F2A;
+}
+
+/* ✅ Tableau */
 .table-container {
-  width: 100%;
   overflow-x: auto;
 }
 
-/* Table stylisée */
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 16px;
-  background: white;
+  background: #5A453A;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* En-tête du tableau */
-.styled-table thead {
-  background: #DAA520; /* Or */
-  color: white;
-  text-transform: uppercase;
-}
-
-.styled-table th, .styled-table td {
-  padding: 14px 16px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-}
-
-/* Alternance de couleur sur les lignes */
-.styled-table tbody tr:nth-child(even) {
-  background: #F5DEB3;
-}
-
-.styled-table tbody tr:hover {
-  background: #FFE4B5; /* Couleur plus claire au survol */
-  transition: background 0.3s ease-in-out;
-}
-
-/* Style des rôles */
-.role {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* ✅ En-tête du tableau */
+.styled-table th {
+  background: #A6896D;
+  color: #3A2F2A;
   font-weight: bold;
-  padding: 5px 10px;
-  border-radius: 8px;
-  width: 120px;
-  text-align: center;
-}
-
-/* Admin */
-.admin {
-  background: #B22222; /* Rouge foncé */
-  color: white;
-}
-
-/* Client */
-.client {
-  background: #4682B4; /* Bleu acier */
-  color: white;
-}
-
-/* Icônes de rôle */
-.role i {
-  margin-right: 8px;
-}
-
-/* Bouton Détails */
-.details-btn {
-  background: #8B4513;
-  color: white;
-  border: none;
-  padding: 8px 14px;
+  padding: 12px;
   cursor: pointer;
-  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+}
+
+.styled-table th:hover {
+  background: #E6D8C7;
+  color: #3A2F2A;
+}
+
+/* ✅ Icônes de tri avec couleurs dynamiques */
+.styled-table th i {
+  margin-left: 5px;
+  transition: color 0.3s ease-in-out;
+}
+
+.fa-sort {
+  color: #E6D8C7;
+}
+
+.fa-sort-up {
+  color: #2ECC71; /* Vert pour ascendant */
+}
+
+.fa-sort-down {
+  color: #E74C3C; /* Rouge pour descendant */
+}
+
+/* ✅ Corps du tableau */
+.styled-table td {
+  padding: 12px;
+  text-align: left;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Alternance des lignes */
+.styled-table tbody tr:nth-child(odd) {
+  background: #4E3D34; /* Couleur plus foncée */
+}
+
+.styled-table tbody tr:nth-child(even) {
+  background: #6B4F44; /* Couleur plus claire */
+}
+
+/* ✅ Animation au survol */
+.styled-table tbody tr:hover {
+  background: #A6896D;
+  color: #3A2F2A;
+  transform: scale(1.02);
   transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
-  font-weight: bold;
 }
 
-.details-btn:hover {
-  background: #A0522D;
-  transform: scale(1.05);
+/* ✅ Actions */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 
-/* Responsive */
+/* ✅ Boutons d'action avec inversion de couleur */
+.btn-action {
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: none;
+}
+
+/* ✅ Bouton Modifier */
+.edit {
+  background: #A6896D;
+  color: #3A2F2A;
+}
+
+.edit:hover {
+  background: #3A2F2A;
+  color: #A6896D;
+}
+
+/* ✅ Bouton Supprimer */
+.delete {
+  background: #D9534F;
+  color: white;
+}
+
+.delete:hover {
+  background: white;
+  color: #D9534F;
+  border: 1px solid #D9534F;
+}
+
+/* ✅ Responsive */
 @media (max-width: 768px) {
-  .styled-table th, .styled-table td {
-      padding: 10px;
-      font-size: 14px;
+  .toolbar {
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .role {
-      width: auto;
-      padding: 4px 8px;
-      font-size: 14px;
-  }
-
-  .details-btn {
-      padding: 6px 12px;
-      font-size: 14px;
+  .styled-table th,
+  .styled-table td {
+    padding: 8px;
   }
 }

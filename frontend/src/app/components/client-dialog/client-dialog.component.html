@@ -1,0 +1,67 @@
+<div class="custom-dialog">
+    <!-- ✅ Titre -->
+    <h2 class="dialog-title">
+      {{ isEditMode ? 'Modifier' : 'Créer' }} un Client
+    </h2>
+  
+    <!-- ✅ Contenu du formulaire -->
+    <div class="dialog-body">
+      <form [formGroup]="clientForm">
+        <!-- ✅ Nom & Prénom -->
+        <div class="input-group">
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-label>Nom</mat-label>
+            <input matInput formControlName="nom" required>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-label>Prénom</mat-label>
+            <input matInput formControlName="prenom" required>
+          </mat-form-field>
+        </div>
+  
+        <!-- ✅ Email -->
+        <mat-form-field appearance="outline" class="custom-field full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required>
+        </mat-form-field>
+  
+        <!-- ✅ Mot de passe -->
+        <mat-form-field appearance="outline" class="custom-field full-width">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="Laisser vide pour ne pas modifier">
+        </mat-form-field>
+  
+        <!-- ✅ Téléphone & Adresse -->
+        <div class="input-group">
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-label>Téléphone</mat-label>
+            <input matInput formControlName="telephone" required>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-label>Adresse</mat-label>
+            <input matInput formControlName="adresse" required>
+          </mat-form-field>
+        </div>
+  
+        <!-- ✅ Sélection du rôle -->
+        <mat-form-field appearance="outline" class="custom-field full-width">
+          <mat-label>Rôle</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let role of roles" [value]="role.idRole">
+              {{ role.nomRole }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+  
+    <!-- ✅ Actions -->
+    <div class="dialog-actions">
+      <button class="cancel-btn" (click)="onCancel()">Annuler</button>
+      <button class="confirm-btn" (click)="onSubmit()" [disabled]="clientForm.invalid">
+        {{ isEditMode ? 'Modifier' : 'Créer' }}
+      </button>
+    </div>
+  </div>
