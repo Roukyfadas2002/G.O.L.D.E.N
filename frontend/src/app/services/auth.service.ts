@@ -66,18 +66,43 @@ export class AuthService {
     localStorage.setItem('username', response.username);
   }
 
-  /**
-   * 🔒 Déconnexion de l'utilisateur
-   */
   logout(): void {
-    console.log("🔒 Déconnexion...");
+    console.log("🔒 Déconnexion en cours...");
+
+    const email = localStorage.getItem('username'); // On récupère l'email stocké
+    if (!email) {
+        console.warn("⚠️ Aucun email trouvé, suppression locale seulement.");
+        this.clearSession();
+        return;
+    }
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    this.http.post('http://localhost:8080/api/auth/logout', { email }, { headers }).subscribe({
+        next: () => {
+            console.log("✅ Déconnexion réussie côté backend !");
+            this.clearSession();
+        },
+        error: (error) => {
+            console.error("❌ Erreur lors de la déconnexion :", error);
+            this.clearSession();
+        }
+    });
+}
+
+/**
+ * Nettoie la session (localStorage et timers)
+ */
+private clearSession(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('username');
+
     clearTimeout(this.warningTimeout);
     clearTimeout(this.logoutTimeout);
-    window.location.reload();
-  }
+
+    window.location.reload(); // Recharge la page pour réinitialiser l'état de l'appli
+}
 
   /**
    * 🔍 Vérifie si l'utilisateur est authentifié

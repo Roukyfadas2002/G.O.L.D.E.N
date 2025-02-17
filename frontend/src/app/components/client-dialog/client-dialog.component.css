@@ -1,104 +1,211 @@
 /* ✅ Conteneur principal du dialogue */
 .custom-dialog {
-    background: #3A2F2A !important; /* 🎨 Marron foncé (plus de blanc) */
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: #2E1E1A; /* 🎨 Marron foncé */
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+  color: #E6D8C7;
+}
+
+/* ✅ Titre */
+.dialog-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #A6896D;
+}
+
+/* ✅ Contenu du formulaire */
+.dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+/* ✅ Champs en ligne */
+.input-group {
+  display: flex;
+  gap: 15px;
+}
+
+.input-group .custom-field {
+  flex: 1;
+}
+
+/* ✅ Style des champs */
+.custom-field {
+  width: 100%;
+  position: relative;
+}
+
+/* ✅ Champ Material */
+.custom-field .mat-form-field-wrapper {
+  background-color: #5A453A;
+  border-radius: 8px;
+}
+
+/* ✅ Champ Input */
+.custom-field input {
+  color: #E6D8C7;
+}
+
+/* ✅ Icône de l'œil */
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 35%;
+  transform: translateY(-50%);
+  color: #E6D8C7;
+  cursor: pointer;
+}
+
+/* ✅ Actions (Boutons) */
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+/* ✅ Style des boutons */
+button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ✅ Effet d’aura amélioré */
+button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 70%);
+  transform: scale(0);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  opacity: 0;
+}
+
+/* ✅ Effet d'aura plus intense au survol */
+button:hover::before {
+  transform: scale(1.5);
+  opacity: 1;
+}
+
+/* ✅ Effet de transition des couleurs plus marqué */
+button {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* ✅ Bouton Annuler */
+.cancel-btn {
+  background-color: #A6896D;
+  color: #3A2F2A;
+}
+
+.cancel-btn:hover {
+  background-color: #E6D8C7;
+  color: #3A2F2A;
+  box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.4); /* Effet lumineux */
+}
+
+/* ✅ Bouton Modifier / Créer */
+.confirm-btn {
+  background-color: #E6D8C7;
+  color: #3A2F2A;
+}
+
+.confirm-btn:hover {
+  background-color: #A6896D;
+  color: #E6D8C7;
+  box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.4); /* Effet lumineux */
+}
+
+/* ✅ Désactiver le bouton si formulaire invalide */
+.confirm-btn:disabled {
+  background-color: #777;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* ✅ Dropdown */
+.dropdown-container {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.dropdown-container label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #E6D8C7;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* ✅ Zone sélectionnée */
+.dropdown {
+  background: #5A453A;
+  color: #E6D8C7;
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  font-size: 1.1rem;
+}
+
+.dropdown:hover {
+  background: #7B5E4C;
+}
+
+/* ✅ Liste des options */
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: #5A453A;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  z-index: 10;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.dropdown-menu li {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.dropdown-menu li:hover {
+  background: #7B5E4C;
+}
+
+/* ✅ Animation */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
   }
-  
-  /* ✅ Titre */
-  .dialog-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-    color: #E6D8C7;
-    text-transform: uppercase;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #A6896D;
+  to {
+      opacity: 1;
+      transform: translateY(0);
   }
-  
-  /* ✅ Contenu du formulaire */
-  .dialog-body {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 15px 0;
-  }
-  
-  /* ✅ Champs en ligne */
-  .input-group {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .input-group .custom-field {
-    flex: 1;
-  }
-  
-  /* ✅ Style des champs */
-  .custom-field {
-    width: 100%;
-  }
-  
-  .custom-field .mat-form-field-wrapper {
-    background-color: #5A453A !important; /* 🎨 Marron foncé */
-    border-radius: 6px;
-  }
-  
-  .custom-field input,
-  .custom-field textarea,
-  .custom-field select {
-    color: #E6D8C7 !important; /* 🎨 Texte beige */
-  }
-  
-  /* ✅ Liste déroulante */
-  mat-select {
-    color: #E6D8C7 !important;
-  }
-  
-  /* ✅ Actions (Boutons) */
-  .dialog-actions {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 15px;
-  }
-  
-  /* ✅ Style des boutons */
-  button {
-    padding: 12px 25px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  /* ✅ Bouton Annuler */
-  .cancel-btn {
-    background-color: #A6896D;
-    color: #3A2F2A;
-  }
-  
-  .cancel-btn:hover {
-    background-color: #E6D8C7;
-    color: #3A2F2A;
-  }
-  
-  /* ✅ Bouton Modifier / Créer */
-  .confirm-btn {
-    background-color: #E6D8C7;
-    color: #3A2F2A;
-  }
-  
-  .confirm-btn:hover {
-    background-color: #A6896D;
-    color: #E6D8C7;
-  }
-  
-  /* ✅ Désactiver le bouton si formulaire invalide */
-  .confirm-btn:disabled {
-    background-color: #777;
-    color: #ccc;
-    cursor: not-allowed;
-  }
+}

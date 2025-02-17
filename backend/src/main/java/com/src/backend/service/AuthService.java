@@ -38,4 +38,9 @@ public class AuthService {
 
         return new LoginResponse(false, "Email ou mot de passe incorrect", "", "");
     }
+
+    public Optional<Client> getClientByEmail(String email) {
+        String cleanedEmail = email.trim().toLowerCase(); // 🔥 Normalisation
+        return clientRepository.findByEmail(cleanedEmail);
+    }
 }

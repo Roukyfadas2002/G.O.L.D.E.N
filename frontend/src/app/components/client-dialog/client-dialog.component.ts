@@ -34,6 +34,7 @@ export class ClientDialogComponent implements OnInit {
   clientForm!: FormGroup;
   roles: Role[] = [];
   isEditMode: boolean = false;
+  showPassword: boolean = false; // ✅ Ajout de la variable pour afficher/masquer le mot de passe
 
   constructor(
     public dialogRef: MatDialogRef<ClientDialogComponent>,
@@ -97,7 +98,27 @@ export class ClientDialogComponent implements OnInit {
     }
   }
 
+  dropdownOpen = false;
+  selectedRole: string | null = null;
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  toggleDropdown(): void {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  selectRole(role: Role): void {
+    this.selectedRole = role.nomRole;
+    this.clientForm.patchValue({ role: role.idRole });
+    this.dropdownOpen = false;
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+    const passwordField = document.querySelector('input[formControlName="password"]') as HTMLInputElement;
+    if (passwordField) {
+      passwordField.type = this.showPassword ? 'text' : 'password';
+    }
   }
 }

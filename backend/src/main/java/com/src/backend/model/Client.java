@@ -4,28 +4,39 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "client")
+@Table(name = "client") // ✅ Correspond exactement au nom de la table
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_client") // ✅ Correspond à la colonne de la BDD
     private Long idClient;
-    
+
+    @Column(name = "nom", nullable = false)
     private String nom;
+
+    @Column(name = "prenom", nullable = false)
     private String prenom;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "telephone", nullable = false)
     private String telephone;
+
+    @Column(name = "adresse")
     private String adresse;
-    
-    @Column(nullable = false, updatable = false) // ✅ `createdAt` ne doit pas être modifiable
+
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "id_role", referencedColumnName = "id_role", nullable = false)
+    @JoinColumn(name = "id_role", referencedColumnName = "id_role", nullable = false) // ✅ Correctement lié à Role
     private Role role;
 
-    // ✅ Remplit automatiquement `createdAt` lors de la création d'un client
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
