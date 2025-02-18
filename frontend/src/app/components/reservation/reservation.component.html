@@ -16,11 +16,21 @@
         <p class="type">🛏️ <strong>{{ chambre.type }}</strong></p>
         <p class="prix">💰 <strong>{{ chambre.prixParNuit }} € / nuit</strong></p>
 
-        <!-- ✅ Bouton de réservation -->
-        <button class="btn-reserver" (click)="reserverChambre(chambre)">
-          <i class="fa-solid fa-calendar-check"></i> Réserver
+        <!-- ✅ Bouton Réserver -->
+        <button class="btn-reserver" (click)="openDialog(chambre)">
+          <i class="fas fa-calendar-check"></i> Réserver
         </button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- ✅ Affichage du dialogue de réservation uniquement si showDialog est TRUE -->
+<app-reservation-dialog 
+  *ngIf="showDialog"
+  [visible]="showDialog" 
+  [chambreId]="selectedChambre?.idChambre ?? 0" 
+  [chambreNom]="selectedChambre?.nom ?? ''" 
+  (close)="closeDialog()" 
+  (confirm)="handleReservation($event)">
+</app-reservation-dialog>

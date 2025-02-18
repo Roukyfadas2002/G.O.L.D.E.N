@@ -1,0 +1,175 @@
+/* ✅ Conteneur principal */
+.gestion-reservations {
+    text-align: center;
+    background: #3A2F2A;
+    color: #E6D8C7;
+    padding: 50px 20px;
+    border-radius: 10px;
+}
+
+/* ✅ Titre */
+h1 {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+/* ✅ Filtres */
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #5A453A;
+    color: #E6D8C7;
+    font-size: 1rem;
+}
+
+.reset-filters {
+    padding: 10px 15px;
+    background: #A6896D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reset-filters:hover {
+    background: #8D6E63;
+}
+
+/* ✅ Tableau des réservations */
+.reservations-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #5A453A;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.reservations-table th, .reservations-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #3A2F2A;
+}
+
+.reservations-table th {
+    background: #8D6E63;
+    color: white;
+    cursor: pointer;
+}
+
+.reservations-table tr:nth-child(even) {
+    background: #4A3628;
+}
+
+/* ✅ Icônes de tri */
+th i {
+    margin-left: 5px;
+    color: #ddd;
+    font-size: 0.9rem;
+}
+
+/* ✅ Statut */
+.status-badge {
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.en-attente {
+    background: #FFD700;
+    color: black;
+}
+
+.pris-en-compte {
+    background: #FF8C00;
+    color: white;
+}
+
+.confirmee {
+    background: #32CD32;
+    color: white;
+}
+
+.refusee {
+    background: #DC143C;
+    color: white;
+}
+
+/* ✅ Actions */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ✅ Boutons ronds avec 6px de bord */
+.btn-action {
+    border: 6px solid transparent; /* Bordure initiale transparente */
+    padding: 10px;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ✅ Effet d’inversion de couleur au survol */
+.btn-action:hover {
+    color: white;
+    border-color: currentColor; /* Rend la bordure de la couleur du texte */
+    background: transparent;
+}
+
+/* ✅ Boutons spécifiques */
+.accept {
+    background: #FFD700;
+    color: black;
+}
+
+.accept:hover {
+    background: black;
+    color: #FFD700;
+}
+
+.confirm {
+    background: #32CD32;
+    color: white;
+}
+
+.confirm:hover {
+    background: white;
+    color: #32CD32;
+}
+
+.reject {
+    background: #DC143C;
+    color: white;
+}
+
+.reject:hover {
+    background: white;
+    color: #DC143C;
+}
+
+.delete {
+    background: #8B0000;
+    color: white;
+}
+
+.delete:hover {
+    background: white;
+    color: #8B0000;
+}

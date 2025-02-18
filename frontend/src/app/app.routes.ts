@@ -8,6 +8,7 @@ import { ClientsComponent } from './components/clients/clients.component'; // �
 import { ChienListComponent } from './components/chien-list/chien-list.component'; // ✅ Page Admin (Gestion des Chiens)
 import { ChambresComponent } from './components/chambres/chambres.component'; // ✅ Ajout de la gestion des chambres
 import { AuthGuard } from './guards/auth.guard'; // ✅ Protection des routes
+import { GestionReservationsComponent } from './components/gestion-reservations/gestion-reservations.component'; // ✅ Gestion des réservations (Admin)
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,7 +20,8 @@ export const routes: Routes = [
   // ✅ Routes Admin protégées
   { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
   { path: 'admin/chiens', component: ChienListComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
-  { path: 'admin/chambres', component: ChambresComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } }, // 🚀 Ajout de la gestion des chambres
+  { path: 'admin/chambres', component: ChambresComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } }, 
+  { path: 'admin/reservations', component: GestionReservationsComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } }, // 🚀 Ajout gestion réservations
 
   { path: '**', redirectTo: '' } // Redirection si la route n'existe pas
 ];

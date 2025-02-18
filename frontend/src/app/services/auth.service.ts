@@ -11,6 +11,7 @@ interface LoginResponse {
   message: string;
   role: string;
   username: string;
+  clientId: number; // ✅ Ajout de l'ID du client
 }
 
 @Injectable({
@@ -32,25 +33,18 @@ export class AuthService {
    * 🔐 Envoie une requête de connexion au backend
    */
   login(email: string, password: string): Observable<LoginResponse> {
-    console.log("📡 Envoi des identifiants au backend...");
-
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const loginData = { email, password };
-
-    return this.http.post<LoginResponse>(this.apiUrl, loginData, { headers }).pipe(
+    return this.http.post<LoginResponse>(this.apiUrl, { email, password }).pipe(
       tap(response => {
-        console.log("✅ Réponse du serveur :", response);
-
         if (response.success) {
-          console.log("🔑 Connexion réussie !");
           this.storeUserData(response);
+          console.log("✅ Connexion réussie ! ID Client stocké :", response.clientId);
           this.scheduleAutoLogout();
         } else {
           console.error("❌ Connexion échouée :", response.message);
         }
       }),
       catchError(error => {
-        console.error("❌ Erreur HTTP :", error);
+        console.error("❌ Erreur lors de la connexion :", error);
         return throwError(() => new Error(error));
       })
     );
@@ -64,6 +58,9 @@ export class AuthService {
     localStorage.setItem('token', token);
     localStorage.setItem('role', response.role);
     localStorage.setItem('username', response.username);
+    localStorage.setItem('clientId', response.clientId.toString()); // ✅ Stocke l'ID du client
+  
+    console.log("🔐 Client connecté : ID =", response.clientId);
   }
 
   logout(): void {
@@ -94,14 +91,15 @@ export class AuthService {
  * Nettoie la session (localStorage et timers)
  */
 private clearSession(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    localStorage.removeItem('username');
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  localStorage.removeItem('username');
+  localStorage.removeItem('clientId'); // ✅ Supprime aussi l'ID du client
 
-    clearTimeout(this.warningTimeout);
-    clearTimeout(this.logoutTimeout);
+  clearTimeout(this.warningTimeout);
+  clearTimeout(this.logoutTimeout);
 
-    window.location.reload(); // Recharge la page pour réinitialiser l'état de l'appli
+  window.location.reload();
 }
 
   /**
@@ -228,5 +226,10 @@ private clearSession(): void {
    */
   getUsername(): string {
     return localStorage.getItem('username') || 'Invité';
+  }
+
+  getClientId(): number | null {
+    const clientId = localStorage.getItem('clientId');
+    return clientId ? parseInt(clientId, 10) : null;
   }
 }

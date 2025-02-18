@@ -1,0 +1,22 @@
+<div class="dialog-overlay" *ngIf="visible">
+  <div class="dialog-content">
+    <h2>📅 Réserver {{ chambreNom }}</h2>
+
+    <label>Nom du client:</label>
+    <input type="text" [value]="reservation.clientId" disabled>
+
+    <label>Chambre:</label>
+    <input type="text" [value]="reservation.chambreId" disabled>
+
+    <label>Date de début:</label>
+    <input type="date" [(ngModel)]="reservation.dateDebut" required>
+
+    <label>Date de fin:</label>
+    <input type="date" [(ngModel)]="reservation.dateFin" required>
+
+    <div class="dialog-actions">
+      <button class="btn-cancel" (click)="onCancel()">Annuler</button>
+      <button class="btn-confirm" (click)="onConfirm()" [disabled]="!isValid()">Confirmer</button>
+    </div>
+  </div>
+</div>

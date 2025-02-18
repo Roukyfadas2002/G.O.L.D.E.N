@@ -31,12 +31,13 @@ public class AuthService {
                     true, 
                     "Connexion réussie", 
                     client.getRole().getNomRole(), // ✅ Rôle depuis la relation `role`
-                    client.getEmail()
+                    client.getEmail(),
+                    client.getIdClient() // ✅ Ajout de l'ID du client
                 );
             }
         }
 
-        return new LoginResponse(false, "Email ou mot de passe incorrect", "", "");
+        return new LoginResponse(false, "Email ou mot de passe incorrect", "", "", null);
     }
 
     public Optional<Client> getClientByEmail(String email) {

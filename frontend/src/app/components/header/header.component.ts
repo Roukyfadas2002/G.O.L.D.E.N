@@ -31,7 +31,8 @@ export class HeaderComponent {
     { label: 'Produits', icon: 'fas fa-shopping-cart', path: '/commande', roles: ['User', 'Admin'] },
     { label: 'Gestion Clients', icon: 'fas fa-user-shield', path: '/admin/clients', roles: ['Admin'] },
     { label: 'Gestion Chiens', icon: 'fas fa-dog', path: '/admin/chiens', roles: ['Admin'] },
-    { label: 'Gestion Chambres', icon: 'fas fa-hotel', path: '/admin/chambres', roles: ['Admin'] }
+    { label: 'Gestion Chambres', icon: 'fas fa-hotel', path: '/admin/chambres', roles: ['Admin'] },
+    { path: 'admin/reservations', label: 'Gestion Réservations', icon: 'fas fa-calendar-check', roles: ['Admin'] } // ✅ Ajouté ici
   ];
 
   constructor(private router: Router, private authService: AuthService) {
